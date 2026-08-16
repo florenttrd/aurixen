@@ -14,7 +14,416 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      availabilities: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          restaurant_id: string
+          slot_date: string
+          slot_time: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          restaurant_id: string
+          slot_date: string
+          slot_time?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          restaurant_id?: string
+          slot_date?: string
+          slot_time?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "availabilities_restaurant_id_fkey"
+            columns: ["restaurant_id"]
+            isOneToOne: false
+            referencedRelation: "restaurants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_date: string
+          event_time: string | null
+          id: string
+          kind: string
+          project_slug: string
+          restaurant_id: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_date: string
+          event_time?: string | null
+          id?: string
+          kind?: string
+          project_slug?: string
+          restaurant_id?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_date?: string
+          event_time?: string | null
+          id?: string
+          kind?: string
+          project_slug?: string
+          restaurant_id?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_restaurant_id_fkey"
+            columns: ["restaurant_id"]
+            isOneToOne: false
+            referencedRelation: "restaurants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      files: {
+        Row: {
+          created_at: string
+          folder_id: string | null
+          id: string
+          mime_type: string | null
+          name: string
+          project_slug: string
+          size_bytes: number | null
+          storage_path: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          folder_id?: string | null
+          id?: string
+          mime_type?: string | null
+          name: string
+          project_slug?: string
+          size_bytes?: number | null
+          storage_path: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          folder_id?: string | null
+          id?: string
+          mime_type?: string | null
+          name?: string
+          project_slug?: string
+          size_bytes?: number | null
+          storage_path?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "files_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      folders: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          parent_id: string | null
+          project_slug: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          parent_id?: string | null
+          project_slug?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          parent_id?: string | null
+          project_slug?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "folders_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notes: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          id: string
+          pinned: boolean
+          project_slug: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          project_slug?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          project_slug?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pins: {
+        Row: {
+          board: string | null
+          clicks: number
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          impressions: number
+          manual_score: number | null
+          notes: string | null
+          outbound_clicks: number
+          product: string | null
+          published_at: string | null
+          saves: number
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          board?: string | null
+          clicks?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          impressions?: number
+          manual_score?: number | null
+          notes?: string | null
+          outbound_clicks?: number
+          product?: string | null
+          published_at?: string | null
+          saves?: number
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          board?: string | null
+          clicks?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          impressions?: number
+          manual_score?: number | null
+          notes?: string | null
+          outbound_clicks?: number
+          product?: string | null
+          published_at?: string | null
+          saves?: number
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          accent: string
+          created_at: string
+          id: string
+          name: string
+          slug: string
+          tagline: string | null
+          user_id: string
+        }
+        Insert: {
+          accent?: string
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+          tagline?: string | null
+          user_id: string
+        }
+        Update: {
+          accent?: string
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+          tagline?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      restaurants: {
+        Row: {
+          address: string | null
+          created_at: string
+          cuisine: string | null
+          custom_fields: Json
+          email: string | null
+          id: string
+          interest: string
+          location: string | null
+          name: string
+          notes: string | null
+          parking: string | null
+          phone: string | null
+          size: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          cuisine?: string | null
+          custom_fields?: Json
+          email?: string | null
+          id?: string
+          interest?: string
+          location?: string | null
+          name: string
+          notes?: string | null
+          parking?: string | null
+          phone?: string | null
+          size?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          cuisine?: string | null
+          custom_fields?: Json
+          email?: string | null
+          id?: string
+          interest?: string
+          location?: string | null
+          name?: string
+          notes?: string | null
+          parking?: string | null
+          phone?: string | null
+          size?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      sales: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          external_id: string | null
+          id: string
+          product: string
+          quantity: number
+          sold_at: string
+          source: string
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          external_id?: string | null
+          id?: string
+          product: string
+          quantity?: number
+          sold_at?: string
+          source?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          external_id?: string | null
+          id?: string
+          product?: string
+          quantity?: number
+          sold_at?: string
+          source?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
