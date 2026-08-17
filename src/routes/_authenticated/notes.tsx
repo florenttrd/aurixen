@@ -5,7 +5,7 @@ import { Shell } from "@/components/aurixen/Shell";
 import { HUB_NAV } from "@/components/aurixen/navs";
 
 export const Route = createFileRoute("/_authenticated/notes")({
-  component: HubNotes;
+  component: HubNotes,
 });
 
 function HubNotes() {
