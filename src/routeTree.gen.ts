@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedCalendrierRouteImport } from './routes/_authenticated/calendrier'
 import { Route as AuthenticatedHubRouteImport } from './routes/_authenticated/hub'
+import { Route as AuthenticatedLeoRouteImport } from './routes/_authenticated/leo'
 import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
 
 const IndexRoute = IndexRouteImport.update({
@@ -40,6 +41,11 @@ const AuthenticatedHubRoute = AuthenticatedHubRouteImport.update({
   path: '/hub',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLeoRoute = AuthenticatedLeoRouteImport.update({
+  id: '/leo',
+  path: '/leo',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedNotesRoute = AuthenticatedNotesRouteImport.update({
   id: '/notes',
   path: '/notes',
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/calendrier': typeof AuthenticatedCalendrierRoute
   '/hub': typeof AuthenticatedHubRoute
+  '/leo': typeof AuthenticatedLeoRoute
   '/notes': typeof AuthenticatedNotesRoute
 }
 export interface FileRoutesByTo {
@@ -58,6 +65,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/calendrier': typeof AuthenticatedCalendrierRoute
   '/hub': typeof AuthenticatedHubRoute
+  '/leo': typeof AuthenticatedLeoRoute
   '/notes': typeof AuthenticatedNotesRoute
 }
 export interface FileRoutesById {
@@ -67,13 +75,14 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/calendrier': typeof AuthenticatedCalendrierRoute
   '/_authenticated/hub': typeof AuthenticatedHubRoute
+  '/_authenticated/leo': typeof AuthenticatedLeoRoute
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/calendrier' | '/hub' | '/notes'
+  fullPaths: '/' | '/auth' | '/calendrier' | '/hub' | '/leo' | '/notes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/calendrier' | '/hub' | '/notes'
+  to: '/' | '/auth' | '/calendrier' | '/hub' | '/leo' | '/notes'
   id:
     | '__root__'
     | '/'
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/calendrier'
     | '/_authenticated/hub'
+    | '/_authenticated/leo'
     | '/_authenticated/notes'
   fileRoutesById: FileRoutesById
 }
@@ -127,6 +137,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHubRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/leo': {
+      id: '/_authenticated/leo'
+      path: '/leo'
+      fullPath: '/leo'
+      preLoaderRoute: typeof AuthenticatedLeoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/notes': {
       id: '/_authenticated/notes'
       path: '/notes'
@@ -140,12 +157,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedCalendrierRoute: typeof AuthenticatedCalendrierRoute
   AuthenticatedHubRoute: typeof AuthenticatedHubRoute
+  AuthenticatedLeoRoute: typeof AuthenticatedLeoRoute
   AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCalendrierRoute: AuthenticatedCalendrierRoute,
   AuthenticatedHubRoute: AuthenticatedHubRoute,
+  AuthenticatedLeoRoute: AuthenticatedLeoRoute,
   AuthenticatedNotesRoute: AuthenticatedNotesRoute,
 }
 
