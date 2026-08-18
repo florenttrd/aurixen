@@ -28,6 +28,7 @@ import { Route as AuthenticatedLeoVentesRouteImport } from './routes/_authentica
 import { Route as AuthenticatedLionIndexRouteImport } from './routes/_authenticated/lion.index'
 import { Route as AuthenticatedLionCalendrierRouteImport } from './routes/_authenticated/lion.calendrier'
 import { Route as AuthenticatedLionNotesRouteImport } from './routes/_authenticated/lion.notes'
+import { Route as AuthenticatedLionRestaurantsRouteImport } from './routes/_authenticated/lion.restaurants'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -128,6 +129,12 @@ const AuthenticatedLionNotesRoute = AuthenticatedLionNotesRouteImport.update({
   path: '/notes',
   getParentRoute: () => AuthenticatedLionRoute,
 } as any)
+const AuthenticatedLionRestaurantsRoute =
+  AuthenticatedLionRestaurantsRouteImport.update({
+    id: '/restaurants',
+    path: '/restaurants',
+    getParentRoute: () => AuthenticatedLionRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/leo/ventes': typeof AuthenticatedLeoVentesRoute
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
+  '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
   '/leo/': typeof AuthenticatedLeoIndexRoute
   '/lion/': typeof AuthenticatedLionIndexRoute
 }
@@ -164,6 +172,7 @@ export interface FileRoutesByTo {
   '/leo/ventes': typeof AuthenticatedLeoVentesRoute
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
+  '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
   '/leo': typeof AuthenticatedLeoIndexRoute
   '/lion': typeof AuthenticatedLionIndexRoute
 }
@@ -186,6 +195,7 @@ export interface FileRoutesById {
   '/_authenticated/leo/ventes': typeof AuthenticatedLeoVentesRoute
   '/_authenticated/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/_authenticated/lion/notes': typeof AuthenticatedLionNotesRoute
+  '/_authenticated/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
   '/_authenticated/leo/': typeof AuthenticatedLeoIndexRoute
   '/_authenticated/lion/': typeof AuthenticatedLionIndexRoute
 }
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/leo/ventes'
     | '/lion/calendrier'
     | '/lion/notes'
+    | '/lion/restaurants'
     | '/leo/'
     | '/lion/'
   fileRoutesByTo: FileRoutesByTo
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/leo/ventes'
     | '/lion/calendrier'
     | '/lion/notes'
+    | '/lion/restaurants'
     | '/leo'
     | '/lion'
   id:
@@ -247,6 +259,7 @@ export interface FileRouteTypes {
     | '/_authenticated/leo/ventes'
     | '/_authenticated/lion/calendrier'
     | '/_authenticated/lion/notes'
+    | '/_authenticated/lion/restaurants'
     | '/_authenticated/leo/'
     | '/_authenticated/lion/'
   fileRoutesById: FileRoutesById
@@ -392,6 +405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLionNotesRouteImport
       parentRoute: typeof AuthenticatedLionRoute
     }
+    '/_authenticated/lion/restaurants': {
+      id: '/_authenticated/lion/restaurants'
+      path: '/restaurants'
+      fullPath: '/lion/restaurants'
+      preLoaderRoute: typeof AuthenticatedLionRestaurantsRouteImport
+      parentRoute: typeof AuthenticatedLionRoute
+    }
   }
 }
 
@@ -423,12 +443,14 @@ const AuthenticatedLeoRouteWithChildren =
 interface AuthenticatedLionRouteChildren {
   AuthenticatedLionCalendrierRoute: typeof AuthenticatedLionCalendrierRoute
   AuthenticatedLionNotesRoute: typeof AuthenticatedLionNotesRoute
+  AuthenticatedLionRestaurantsRoute: typeof AuthenticatedLionRestaurantsRoute
   AuthenticatedLionIndexRoute: typeof AuthenticatedLionIndexRoute
 }
 
 const AuthenticatedLionRouteChildren: AuthenticatedLionRouteChildren = {
   AuthenticatedLionCalendrierRoute: AuthenticatedLionCalendrierRoute,
   AuthenticatedLionNotesRoute: AuthenticatedLionNotesRoute,
+  AuthenticatedLionRestaurantsRoute: AuthenticatedLionRestaurantsRoute,
   AuthenticatedLionIndexRoute: AuthenticatedLionIndexRoute,
 }
 
