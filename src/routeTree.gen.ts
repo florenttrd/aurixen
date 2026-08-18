@@ -17,6 +17,7 @@ import { Route as AuthenticatedHubRouteImport } from './routes/_authenticated/hu
 import { Route as AuthenticatedLeoRouteImport } from './routes/_authenticated/leo'
 import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
 import { Route as AuthenticatedLeoIndexRouteImport } from './routes/_authenticated/leo.index'
+import { Route as AuthenticatedLeoAnalyticsRouteImport } from './routes/_authenticated/leo.analytics'
 import { Route as AuthenticatedLeoCalendrierRouteImport } from './routes/_authenticated/leo.calendrier'
 import { Route as AuthenticatedLeoNotesRouteImport } from './routes/_authenticated/leo.notes'
 import { Route as AuthenticatedLeoPinsRouteImport } from './routes/_authenticated/leo.pins'
@@ -61,6 +62,12 @@ const AuthenticatedLeoIndexRoute = AuthenticatedLeoIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedLeoRoute,
 } as any)
+const AuthenticatedLeoAnalyticsRoute =
+  AuthenticatedLeoAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedLeoRoute,
+  } as any)
 const AuthenticatedLeoCalendrierRoute =
   AuthenticatedLeoCalendrierRouteImport.update({
     id: '/calendrier',
@@ -90,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/hub': typeof AuthenticatedHubRoute
   '/leo': typeof AuthenticatedLeoRouteWithChildren
   '/notes': typeof AuthenticatedNotesRoute
+  '/leo/analytics': typeof AuthenticatedLeoAnalyticsRoute
   '/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
   '/leo/notes': typeof AuthenticatedLeoNotesRoute
   '/leo/pins': typeof AuthenticatedLeoPinsRoute
@@ -102,6 +110,7 @@ export interface FileRoutesByTo {
   '/calendrier': typeof AuthenticatedCalendrierRoute
   '/hub': typeof AuthenticatedHubRoute
   '/notes': typeof AuthenticatedNotesRoute
+  '/leo/analytics': typeof AuthenticatedLeoAnalyticsRoute
   '/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
   '/leo/notes': typeof AuthenticatedLeoNotesRoute
   '/leo/pins': typeof AuthenticatedLeoPinsRoute
@@ -117,6 +126,7 @@ export interface FileRoutesById {
   '/_authenticated/hub': typeof AuthenticatedHubRoute
   '/_authenticated/leo': typeof AuthenticatedLeoRouteWithChildren
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
+  '/_authenticated/leo/analytics': typeof AuthenticatedLeoAnalyticsRoute
   '/_authenticated/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
   '/_authenticated/leo/notes': typeof AuthenticatedLeoNotesRoute
   '/_authenticated/leo/pins': typeof AuthenticatedLeoPinsRoute
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/hub'
     | '/leo'
     | '/notes'
+    | '/leo/analytics'
     | '/leo/calendrier'
     | '/leo/notes'
     | '/leo/pins'
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/calendrier'
     | '/hub'
     | '/notes'
+    | '/leo/analytics'
     | '/leo/calendrier'
     | '/leo/notes'
     | '/leo/pins'
@@ -158,6 +170,7 @@ export interface FileRouteTypes {
     | '/_authenticated/hub'
     | '/_authenticated/leo'
     | '/_authenticated/notes'
+    | '/_authenticated/leo/analytics'
     | '/_authenticated/leo/calendrier'
     | '/_authenticated/leo/notes'
     | '/_authenticated/leo/pins'
@@ -229,6 +242,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLeoIndexRouteImport
       parentRoute: typeof AuthenticatedLeoRoute
     }
+    '/_authenticated/leo/analytics': {
+      id: '/_authenticated/leo/analytics'
+      path: '/analytics'
+      fullPath: '/leo/analytics'
+      preLoaderRoute: typeof AuthenticatedLeoAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedLeoRoute
+    }
     '/_authenticated/leo/calendrier': {
       id: '/_authenticated/leo/calendrier'
       path: '/calendrier'
@@ -261,6 +281,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedLeoRouteChildren {
+  AuthenticatedLeoAnalyticsRoute: typeof AuthenticatedLeoAnalyticsRoute
   AuthenticatedLeoCalendrierRoute: typeof AuthenticatedLeoCalendrierRoute
   AuthenticatedLeoNotesRoute: typeof AuthenticatedLeoNotesRoute
   AuthenticatedLeoPinsRoute: typeof AuthenticatedLeoPinsRoute
@@ -269,6 +290,7 @@ interface AuthenticatedLeoRouteChildren {
 }
 
 const AuthenticatedLeoRouteChildren: AuthenticatedLeoRouteChildren = {
+  AuthenticatedLeoAnalyticsRoute: AuthenticatedLeoAnalyticsRoute,
   AuthenticatedLeoCalendrierRoute: AuthenticatedLeoCalendrierRoute,
   AuthenticatedLeoNotesRoute: AuthenticatedLeoNotesRoute,
   AuthenticatedLeoPinsRoute: AuthenticatedLeoPinsRoute,
