@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedCalendrierRouteImport } from './routes/_authenticated/calendrier'
 import { Route as AuthenticatedHubRouteImport } from './routes/_authenticated/hub'
 import { Route as AuthenticatedLeoRouteImport } from './routes/_authenticated/leo'
+import { Route as AuthenticatedLionRouteImport } from './routes/_authenticated/lion'
 import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
 import { Route as AuthenticatedLeoIndexRouteImport } from './routes/_authenticated/leo.index'
 import { Route as AuthenticatedLeoAnalyticsRouteImport } from './routes/_authenticated/leo.analytics'
@@ -52,6 +53,11 @@ const AuthenticatedHubRoute = AuthenticatedHubRouteImport.update({
 const AuthenticatedLeoRoute = AuthenticatedLeoRouteImport.update({
   id: '/leo',
   path: '/leo',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLionRoute = AuthenticatedLionRouteImport.update({
+  id: '/lion',
+  path: '/lion',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedNotesRoute = AuthenticatedNotesRouteImport.update({
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/calendrier': typeof AuthenticatedCalendrierRoute
   '/hub': typeof AuthenticatedHubRoute
   '/leo': typeof AuthenticatedLeoRouteWithChildren
+  '/lion': typeof AuthenticatedLionRoute
   '/notes': typeof AuthenticatedNotesRoute
   '/leo/analytics': typeof AuthenticatedLeoAnalyticsRoute
   '/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/calendrier': typeof AuthenticatedCalendrierRoute
   '/hub': typeof AuthenticatedHubRoute
+  '/lion': typeof AuthenticatedLionRoute
   '/notes': typeof AuthenticatedNotesRoute
   '/leo/analytics': typeof AuthenticatedLeoAnalyticsRoute
   '/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/_authenticated/calendrier': typeof AuthenticatedCalendrierRoute
   '/_authenticated/hub': typeof AuthenticatedHubRoute
   '/_authenticated/leo': typeof AuthenticatedLeoRouteWithChildren
+  '/_authenticated/lion': typeof AuthenticatedLionRoute
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
   '/_authenticated/leo/analytics': typeof AuthenticatedLeoAnalyticsRoute
   '/_authenticated/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/calendrier'
     | '/hub'
     | '/leo'
+    | '/lion'
     | '/notes'
     | '/leo/analytics'
     | '/leo/calendrier'
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/calendrier'
     | '/hub'
+    | '/lion'
     | '/notes'
     | '/leo/analytics'
     | '/leo/calendrier'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/_authenticated/calendrier'
     | '/_authenticated/hub'
     | '/_authenticated/leo'
+    | '/_authenticated/lion'
     | '/_authenticated/notes'
     | '/_authenticated/leo/analytics'
     | '/_authenticated/leo/calendrier'
@@ -252,6 +264,13 @@ declare module '@tanstack/react-router' {
       path: '/leo'
       fullPath: '/leo'
       preLoaderRoute: typeof AuthenticatedLeoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/lion': {
+      id: '/_authenticated/lion'
+      path: '/lion'
+      fullPath: '/lion'
+      preLoaderRoute: typeof AuthenticatedLionRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/notes': {
@@ -349,6 +368,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCalendrierRoute: typeof AuthenticatedCalendrierRoute
   AuthenticatedHubRoute: typeof AuthenticatedHubRoute
   AuthenticatedLeoRoute: typeof AuthenticatedLeoRouteWithChildren
+  AuthenticatedLionRoute: typeof AuthenticatedLionRoute
   AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
 }
 
@@ -356,6 +376,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCalendrierRoute: AuthenticatedCalendrierRoute,
   AuthenticatedHubRoute: AuthenticatedHubRoute,
   AuthenticatedLeoRoute: AuthenticatedLeoRouteWithChildren,
+  AuthenticatedLionRoute: AuthenticatedLionRoute,
   AuthenticatedNotesRoute: AuthenticatedNotesRoute,
 }
 
