@@ -25,6 +25,7 @@ import { Route as AuthenticatedLeoFichiersRouteImport } from './routes/_authenti
 import { Route as AuthenticatedLeoNotesRouteImport } from './routes/_authenticated/leo.notes'
 import { Route as AuthenticatedLeoPinsRouteImport } from './routes/_authenticated/leo.pins'
 import { Route as AuthenticatedLeoVentesRouteImport } from './routes/_authenticated/leo.ventes'
+import { Route as AuthenticatedLionCalendrierRouteImport } from './routes/_authenticated/lion.calendrier'
 import { Route as AuthenticatedLionNotesRouteImport } from './routes/_authenticated/lion.notes'
 
 const IndexRoute = IndexRouteImport.update({
@@ -110,6 +111,12 @@ const AuthenticatedLeoVentesRoute = AuthenticatedLeoVentesRouteImport.update({
   path: '/ventes',
   getParentRoute: () => AuthenticatedLeoRoute,
 } as any)
+const AuthenticatedLionCalendrierRoute =
+  AuthenticatedLionCalendrierRouteImport.update({
+    id: '/calendrier',
+    path: '/calendrier',
+    getParentRoute: () => AuthenticatedLionRoute,
+  } as any)
 const AuthenticatedLionNotesRoute = AuthenticatedLionNotesRouteImport.update({
   id: '/notes',
   path: '/notes',
@@ -131,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/leo/notes': typeof AuthenticatedLeoNotesRoute
   '/leo/pins': typeof AuthenticatedLeoPinsRoute
   '/leo/ventes': typeof AuthenticatedLeoVentesRoute
+  '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/leo/': typeof AuthenticatedLeoIndexRoute
 }
@@ -148,6 +156,7 @@ export interface FileRoutesByTo {
   '/leo/notes': typeof AuthenticatedLeoNotesRoute
   '/leo/pins': typeof AuthenticatedLeoPinsRoute
   '/leo/ventes': typeof AuthenticatedLeoVentesRoute
+  '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/leo': typeof AuthenticatedLeoIndexRoute
 }
@@ -168,6 +177,7 @@ export interface FileRoutesById {
   '/_authenticated/leo/notes': typeof AuthenticatedLeoNotesRoute
   '/_authenticated/leo/pins': typeof AuthenticatedLeoPinsRoute
   '/_authenticated/leo/ventes': typeof AuthenticatedLeoVentesRoute
+  '/_authenticated/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/_authenticated/lion/notes': typeof AuthenticatedLionNotesRoute
   '/_authenticated/leo/': typeof AuthenticatedLeoIndexRoute
 }
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/leo/notes'
     | '/leo/pins'
     | '/leo/ventes'
+    | '/lion/calendrier'
     | '/lion/notes'
     | '/leo/'
   fileRoutesByTo: FileRoutesByTo
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/leo/notes'
     | '/leo/pins'
     | '/leo/ventes'
+    | '/lion/calendrier'
     | '/lion/notes'
     | '/leo'
   id:
@@ -224,6 +236,7 @@ export interface FileRouteTypes {
     | '/_authenticated/leo/notes'
     | '/_authenticated/leo/pins'
     | '/_authenticated/leo/ventes'
+    | '/_authenticated/lion/calendrier'
     | '/_authenticated/lion/notes'
     | '/_authenticated/leo/'
   fileRoutesById: FileRoutesById
@@ -348,6 +361,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLeoVentesRouteImport
       parentRoute: typeof AuthenticatedLeoRoute
     }
+    '/_authenticated/lion/calendrier': {
+      id: '/_authenticated/lion/calendrier'
+      path: '/calendrier'
+      fullPath: '/lion/calendrier'
+      preLoaderRoute: typeof AuthenticatedLionCalendrierRouteImport
+      parentRoute: typeof AuthenticatedLionRoute
+    }
     '/_authenticated/lion/notes': {
       id: '/_authenticated/lion/notes'
       path: '/notes'
@@ -384,10 +404,12 @@ const AuthenticatedLeoRouteWithChildren =
   AuthenticatedLeoRoute._addFileChildren(AuthenticatedLeoRouteChildren)
 
 interface AuthenticatedLionRouteChildren {
+  AuthenticatedLionCalendrierRoute: typeof AuthenticatedLionCalendrierRoute
   AuthenticatedLionNotesRoute: typeof AuthenticatedLionNotesRoute
 }
 
 const AuthenticatedLionRouteChildren: AuthenticatedLionRouteChildren = {
+  AuthenticatedLionCalendrierRoute: AuthenticatedLionCalendrierRoute,
   AuthenticatedLionNotesRoute: AuthenticatedLionNotesRoute,
 }
 
