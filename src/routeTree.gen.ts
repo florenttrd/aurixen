@@ -25,6 +25,7 @@ import { Route as AuthenticatedLeoFichiersRouteImport } from './routes/_authenti
 import { Route as AuthenticatedLeoNotesRouteImport } from './routes/_authenticated/leo.notes'
 import { Route as AuthenticatedLeoPinsRouteImport } from './routes/_authenticated/leo.pins'
 import { Route as AuthenticatedLeoVentesRouteImport } from './routes/_authenticated/leo.ventes'
+import { Route as AuthenticatedLionIndexRouteImport } from './routes/_authenticated/lion.index'
 import { Route as AuthenticatedLionCalendrierRouteImport } from './routes/_authenticated/lion.calendrier'
 import { Route as AuthenticatedLionNotesRouteImport } from './routes/_authenticated/lion.notes'
 
@@ -111,6 +112,11 @@ const AuthenticatedLeoVentesRoute = AuthenticatedLeoVentesRouteImport.update({
   path: '/ventes',
   getParentRoute: () => AuthenticatedLeoRoute,
 } as any)
+const AuthenticatedLionIndexRoute = AuthenticatedLionIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedLionRoute,
+} as any)
 const AuthenticatedLionCalendrierRoute =
   AuthenticatedLionCalendrierRouteImport.update({
     id: '/calendrier',
@@ -141,13 +147,13 @@ export interface FileRoutesByFullPath {
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/leo/': typeof AuthenticatedLeoIndexRoute
+  '/lion/': typeof AuthenticatedLionIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/calendrier': typeof AuthenticatedCalendrierRoute
   '/hub': typeof AuthenticatedHubRoute
-  '/lion': typeof AuthenticatedLionRouteWithChildren
   '/notes': typeof AuthenticatedNotesRoute
   '/leo/analytics': typeof AuthenticatedLeoAnalyticsRoute
   '/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
@@ -159,6 +165,7 @@ export interface FileRoutesByTo {
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/leo': typeof AuthenticatedLeoIndexRoute
+  '/lion': typeof AuthenticatedLionIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -180,6 +187,7 @@ export interface FileRoutesById {
   '/_authenticated/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/_authenticated/lion/notes': typeof AuthenticatedLionNotesRoute
   '/_authenticated/leo/': typeof AuthenticatedLeoIndexRoute
+  '/_authenticated/lion/': typeof AuthenticatedLionIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -201,13 +209,13 @@ export interface FileRouteTypes {
     | '/lion/calendrier'
     | '/lion/notes'
     | '/leo/'
+    | '/lion/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/calendrier'
     | '/hub'
-    | '/lion'
     | '/notes'
     | '/leo/analytics'
     | '/leo/calendrier'
@@ -219,6 +227,7 @@ export interface FileRouteTypes {
     | '/lion/calendrier'
     | '/lion/notes'
     | '/leo'
+    | '/lion'
   id:
     | '__root__'
     | '/'
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/_authenticated/lion/calendrier'
     | '/_authenticated/lion/notes'
     | '/_authenticated/leo/'
+    | '/_authenticated/lion/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -361,6 +371,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLeoVentesRouteImport
       parentRoute: typeof AuthenticatedLeoRoute
     }
+    '/_authenticated/lion/': {
+      id: '/_authenticated/lion/'
+      path: '/'
+      fullPath: '/lion/'
+      preLoaderRoute: typeof AuthenticatedLionIndexRouteImport
+      parentRoute: typeof AuthenticatedLionRoute
+    }
     '/_authenticated/lion/calendrier': {
       id: '/_authenticated/lion/calendrier'
       path: '/calendrier'
@@ -406,11 +423,13 @@ const AuthenticatedLeoRouteWithChildren =
 interface AuthenticatedLionRouteChildren {
   AuthenticatedLionCalendrierRoute: typeof AuthenticatedLionCalendrierRoute
   AuthenticatedLionNotesRoute: typeof AuthenticatedLionNotesRoute
+  AuthenticatedLionIndexRoute: typeof AuthenticatedLionIndexRoute
 }
 
 const AuthenticatedLionRouteChildren: AuthenticatedLionRouteChildren = {
   AuthenticatedLionCalendrierRoute: AuthenticatedLionCalendrierRoute,
   AuthenticatedLionNotesRoute: AuthenticatedLionNotesRoute,
+  AuthenticatedLionIndexRoute: AuthenticatedLionIndexRoute,
 }
 
 const AuthenticatedLionRouteWithChildren =
