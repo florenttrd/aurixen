@@ -298,6 +298,7 @@ export type Database = {
           clicks: number
           created_at: string
           description: string | null
+          external_id: string | null
           id: string
           image_url: string | null
           impressions: number
@@ -317,6 +318,7 @@ export type Database = {
           clicks?: number
           created_at?: string
           description?: string | null
+          external_id?: string | null
           id?: string
           image_url?: string | null
           impressions?: number
@@ -336,6 +338,7 @@ export type Database = {
           clicks?: number
           created_at?: string
           description?: string | null
+          external_id?: string | null
           id?: string
           image_url?: string | null
           impressions?: number
