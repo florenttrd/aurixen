@@ -19,6 +19,7 @@ import { Route as AuthenticatedHubRouteImport } from './routes/_authenticated/hu
 import { Route as AuthenticatedLeoRouteImport } from './routes/_authenticated/leo'
 import { Route as AuthenticatedLionRouteImport } from './routes/_authenticated/lion'
 import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
+import { Route as AuthenticatedParametresRouteImport } from './routes/_authenticated/parametres'
 import { Route as AuthenticatedLeoIndexRouteImport } from './routes/_authenticated/leo.index'
 import { Route as AuthenticatedLeoAnalyticsRouteImport } from './routes/_authenticated/leo.analytics'
 import { Route as AuthenticatedLeoCalendrierRouteImport } from './routes/_authenticated/leo.calendrier'
@@ -31,6 +32,8 @@ import { Route as AuthenticatedLionIndexRouteImport } from './routes/_authentica
 import { Route as AuthenticatedLionCalendrierRouteImport } from './routes/_authenticated/lion.calendrier'
 import { Route as AuthenticatedLionNotesRouteImport } from './routes/_authenticated/lion.notes'
 import { Route as AuthenticatedLionRestaurantsRouteImport } from './routes/_authenticated/lion.restaurants'
+import { Route as AuthenticatedParametresIndexRouteImport } from './routes/_authenticated/parametres.index'
+import { Route as AuthenticatedParametresIntegrationsRouteImport } from './routes/_authenticated/parametres.integrations'
 import { Route as ApiPublicPinterestCallbackRouteImport } from './routes/api/public/pinterest/callback'
 
 const IndexRoute = IndexRouteImport.update({
@@ -80,6 +83,11 @@ const AuthenticatedLionRoute = AuthenticatedLionRouteImport.update({
 const AuthenticatedNotesRoute = AuthenticatedNotesRouteImport.update({
   id: '/notes',
   path: '/notes',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedParametresRoute = AuthenticatedParametresRouteImport.update({
+  id: '/parametres',
+  path: '/parametres',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLeoIndexRoute = AuthenticatedLeoIndexRouteImport.update({
@@ -148,6 +156,18 @@ const AuthenticatedLionRestaurantsRoute =
     path: '/restaurants',
     getParentRoute: () => AuthenticatedLionRoute,
   } as any)
+const AuthenticatedParametresIndexRoute =
+  AuthenticatedParametresIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedParametresRoute,
+  } as any)
+const AuthenticatedParametresIntegrationsRoute =
+  AuthenticatedParametresIntegrationsRouteImport.update({
+    id: '/integrations',
+    path: '/integrations',
+    getParentRoute: () => AuthenticatedParametresRoute,
+  } as any)
 const ApiPublicPinterestCallbackRoute =
   ApiPublicPinterestCallbackRouteImport.update({
     id: '/api/public/pinterest/callback',
@@ -165,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/leo': typeof AuthenticatedLeoRouteWithChildren
   '/lion': typeof AuthenticatedLionRouteWithChildren
   '/notes': typeof AuthenticatedNotesRoute
+  '/parametres': typeof AuthenticatedParametresRouteWithChildren
   '/leo/analytics': typeof AuthenticatedLeoAnalyticsRoute
   '/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
   '/leo/classement': typeof AuthenticatedLeoClassementRoute
@@ -175,8 +196,10 @@ export interface FileRoutesByFullPath {
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
   '/leo/': typeof AuthenticatedLeoIndexRoute
   '/lion/': typeof AuthenticatedLionIndexRoute
+  '/parametres/': typeof AuthenticatedParametresIndexRoute
   '/api/public/pinterest/callback': typeof ApiPublicPinterestCallbackRoute
 }
 export interface FileRoutesByTo {
@@ -197,8 +220,10 @@ export interface FileRoutesByTo {
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
   '/leo': typeof AuthenticatedLeoIndexRoute
   '/lion': typeof AuthenticatedLionIndexRoute
+  '/parametres': typeof AuthenticatedParametresIndexRoute
   '/api/public/pinterest/callback': typeof ApiPublicPinterestCallbackRoute
 }
 export interface FileRoutesById {
@@ -213,6 +238,7 @@ export interface FileRoutesById {
   '/_authenticated/leo': typeof AuthenticatedLeoRouteWithChildren
   '/_authenticated/lion': typeof AuthenticatedLionRouteWithChildren
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
+  '/_authenticated/parametres': typeof AuthenticatedParametresRouteWithChildren
   '/_authenticated/leo/analytics': typeof AuthenticatedLeoAnalyticsRoute
   '/_authenticated/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
   '/_authenticated/leo/classement': typeof AuthenticatedLeoClassementRoute
@@ -223,8 +249,10 @@ export interface FileRoutesById {
   '/_authenticated/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/_authenticated/lion/notes': typeof AuthenticatedLionNotesRoute
   '/_authenticated/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/_authenticated/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
   '/_authenticated/leo/': typeof AuthenticatedLeoIndexRoute
   '/_authenticated/lion/': typeof AuthenticatedLionIndexRoute
+  '/_authenticated/parametres/': typeof AuthenticatedParametresIndexRoute
   '/api/public/pinterest/callback': typeof ApiPublicPinterestCallbackRoute
 }
 export interface FileRouteTypes {
@@ -239,6 +267,7 @@ export interface FileRouteTypes {
     | '/leo'
     | '/lion'
     | '/notes'
+    | '/parametres'
     | '/leo/analytics'
     | '/leo/calendrier'
     | '/leo/classement'
@@ -249,8 +278,10 @@ export interface FileRouteTypes {
     | '/lion/calendrier'
     | '/lion/notes'
     | '/lion/restaurants'
+    | '/parametres/integrations'
     | '/leo/'
     | '/lion/'
+    | '/parametres/'
     | '/api/public/pinterest/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -271,8 +302,10 @@ export interface FileRouteTypes {
     | '/lion/calendrier'
     | '/lion/notes'
     | '/lion/restaurants'
+    | '/parametres/integrations'
     | '/leo'
     | '/lion'
+    | '/parametres'
     | '/api/public/pinterest/callback'
   id:
     | '__root__'
@@ -286,6 +319,7 @@ export interface FileRouteTypes {
     | '/_authenticated/leo'
     | '/_authenticated/lion'
     | '/_authenticated/notes'
+    | '/_authenticated/parametres'
     | '/_authenticated/leo/analytics'
     | '/_authenticated/leo/calendrier'
     | '/_authenticated/leo/classement'
@@ -296,8 +330,10 @@ export interface FileRouteTypes {
     | '/_authenticated/lion/calendrier'
     | '/_authenticated/lion/notes'
     | '/_authenticated/lion/restaurants'
+    | '/_authenticated/parametres/integrations'
     | '/_authenticated/leo/'
     | '/_authenticated/lion/'
+    | '/_authenticated/parametres/'
     | '/api/public/pinterest/callback'
   fileRoutesById: FileRoutesById
 }
@@ -380,6 +416,13 @@ declare module '@tanstack/react-router' {
       path: '/notes'
       fullPath: '/notes'
       preLoaderRoute: typeof AuthenticatedNotesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/parametres': {
+      id: '/_authenticated/parametres'
+      path: '/parametres'
+      fullPath: '/parametres'
+      preLoaderRoute: typeof AuthenticatedParametresRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/leo/': {
@@ -466,6 +509,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLionRestaurantsRouteImport
       parentRoute: typeof AuthenticatedLionRoute
     }
+    '/_authenticated/parametres/': {
+      id: '/_authenticated/parametres/'
+      path: '/'
+      fullPath: '/parametres/'
+      preLoaderRoute: typeof AuthenticatedParametresIndexRouteImport
+      parentRoute: typeof AuthenticatedParametresRoute
+    }
+    '/_authenticated/parametres/integrations': {
+      id: '/_authenticated/parametres/integrations'
+      path: '/integrations'
+      fullPath: '/parametres/integrations'
+      preLoaderRoute: typeof AuthenticatedParametresIntegrationsRouteImport
+      parentRoute: typeof AuthenticatedParametresRoute
+    }
     '/api/public/pinterest/callback': {
       id: '/api/public/pinterest/callback'
       path: '/api/public/pinterest/callback'
@@ -518,12 +575,30 @@ const AuthenticatedLionRouteChildren: AuthenticatedLionRouteChildren = {
 const AuthenticatedLionRouteWithChildren =
   AuthenticatedLionRoute._addFileChildren(AuthenticatedLionRouteChildren)
 
+interface AuthenticatedParametresRouteChildren {
+  AuthenticatedParametresIntegrationsRoute: typeof AuthenticatedParametresIntegrationsRoute
+  AuthenticatedParametresIndexRoute: typeof AuthenticatedParametresIndexRoute
+}
+
+const AuthenticatedParametresRouteChildren: AuthenticatedParametresRouteChildren =
+  {
+    AuthenticatedParametresIntegrationsRoute:
+      AuthenticatedParametresIntegrationsRoute,
+    AuthenticatedParametresIndexRoute: AuthenticatedParametresIndexRoute,
+  }
+
+const AuthenticatedParametresRouteWithChildren =
+  AuthenticatedParametresRoute._addFileChildren(
+    AuthenticatedParametresRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedCalendrierRoute: typeof AuthenticatedCalendrierRoute
   AuthenticatedHubRoute: typeof AuthenticatedHubRoute
   AuthenticatedLeoRoute: typeof AuthenticatedLeoRouteWithChildren
   AuthenticatedLionRoute: typeof AuthenticatedLionRouteWithChildren
   AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
+  AuthenticatedParametresRoute: typeof AuthenticatedParametresRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -532,6 +607,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLeoRoute: AuthenticatedLeoRouteWithChildren,
   AuthenticatedLionRoute: AuthenticatedLionRouteWithChildren,
   AuthenticatedNotesRoute: AuthenticatedNotesRoute,
+  AuthenticatedParametresRoute: AuthenticatedParametresRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
