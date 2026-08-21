@@ -31,6 +31,7 @@ import { Route as AuthenticatedLionIndexRouteImport } from './routes/_authentica
 import { Route as AuthenticatedLionCalendrierRouteImport } from './routes/_authenticated/lion.calendrier'
 import { Route as AuthenticatedLionNotesRouteImport } from './routes/_authenticated/lion.notes'
 import { Route as AuthenticatedLionRestaurantsRouteImport } from './routes/_authenticated/lion.restaurants'
+import { Route as ApiPublicPinterestCallbackRouteImport } from './routes/api/public/pinterest/callback'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -147,6 +148,12 @@ const AuthenticatedLionRestaurantsRoute =
     path: '/restaurants',
     getParentRoute: () => AuthenticatedLionRoute,
   } as any)
+const ApiPublicPinterestCallbackRoute =
+  ApiPublicPinterestCallbackRouteImport.update({
+    id: '/api/public/pinterest/callback',
+    path: '/api/public/pinterest/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -170,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
   '/leo/': typeof AuthenticatedLeoIndexRoute
   '/lion/': typeof AuthenticatedLionIndexRoute
+  '/api/public/pinterest/callback': typeof ApiPublicPinterestCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -191,6 +199,7 @@ export interface FileRoutesByTo {
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
   '/leo': typeof AuthenticatedLeoIndexRoute
   '/lion': typeof AuthenticatedLionIndexRoute
+  '/api/public/pinterest/callback': typeof ApiPublicPinterestCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -216,6 +225,7 @@ export interface FileRoutesById {
   '/_authenticated/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
   '/_authenticated/leo/': typeof AuthenticatedLeoIndexRoute
   '/_authenticated/lion/': typeof AuthenticatedLionIndexRoute
+  '/api/public/pinterest/callback': typeof ApiPublicPinterestCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/lion/restaurants'
     | '/leo/'
     | '/lion/'
+    | '/api/public/pinterest/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -262,6 +273,7 @@ export interface FileRouteTypes {
     | '/lion/restaurants'
     | '/leo'
     | '/lion'
+    | '/api/public/pinterest/callback'
   id:
     | '__root__'
     | '/'
@@ -286,6 +298,7 @@ export interface FileRouteTypes {
     | '/_authenticated/lion/restaurants'
     | '/_authenticated/leo/'
     | '/_authenticated/lion/'
+    | '/api/public/pinterest/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -294,6 +307,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiPublicPinterestCallbackRoute: typeof ApiPublicPinterestCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -452,6 +466,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLionRestaurantsRouteImport
       parentRoute: typeof AuthenticatedLionRoute
     }
+    '/api/public/pinterest/callback': {
+      id: '/api/public/pinterest/callback'
+      path: '/api/public/pinterest/callback'
+      fullPath: '/api/public/pinterest/callback'
+      preLoaderRoute: typeof ApiPublicPinterestCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -522,6 +543,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiPublicPinterestCallbackRoute: ApiPublicPinterestCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
