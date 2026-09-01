@@ -18,7 +18,7 @@ function SettingsIndex() {
   return (
     <Shell wordmark="AURIXEN" subtitle="Paramètres" backTo="/hub" nav={HUB_NAV}>
       <SectionTitle overline="Configuration" title="Paramètres" />
-      <Link to="/parametres/integrations" className="surface-panel flex items-center gap-3 p-4">
+      <Link to="/parametres/integrations" search={{}} className="surface-panel flex items-center gap-3 p-4">
         <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary">
           <Plug className="size-5" />
         </span>

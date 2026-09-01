@@ -65,8 +65,16 @@ function IntegrationsPage() {
     qc.invalidateQueries({ queryKey: ["sales"] });
   };
 
+  const connectFn = useServerFn(startPinterestOAuth) as () => Promise<{
+    url: string | null;
+    missing: string[];
+  }>;
+  const syncPinsFn = useServerFn(syncPinterestNow) as () => Promise<{ imported: number }>;
+  const testGumroadFn = useServerFn(testGumroadNow) as () => Promise<{ label: string }>;
+  const syncSalesFn = useServerFn(syncGumroadNow) as () => Promise<{ imported: number }>;
+
   const connectPinterest = useMutation({
-    mutationFn: useServerFn(startPinterestOAuth),
+    mutationFn: () => connectFn(),
     onSuccess: (res) => {
       if (!res.url) {
         toast.error(`Secrets manquants : ${res.missing.join(", ")}`);
@@ -78,7 +86,7 @@ function IntegrationsPage() {
   });
 
   const syncPins = useMutation({
-    mutationFn: useServerFn(syncPinterestNow),
+    mutationFn: () => syncPinsFn(),
     onSuccess: (r) => {
       toast.success(`${r.imported} pins synchronisés`);
       invalidate();
@@ -90,7 +98,7 @@ function IntegrationsPage() {
   });
 
   const testGumroad = useMutation({
-    mutationFn: useServerFn(testGumroadNow),
+    mutationFn: () => testGumroadFn(),
     onSuccess: (r) => {
       toast.success(`Gumroad connecté (${r.label})`);
       invalidate();
@@ -102,7 +110,7 @@ function IntegrationsPage() {
   });
 
   const syncSales = useMutation({
-    mutationFn: useServerFn(syncGumroadNow),
+    mutationFn: () => syncSalesFn(),
     onSuccess: (r) => {
       toast.success(`${r.imported} ventes synchronisées`);
       invalidate();
@@ -176,7 +184,7 @@ function IntegrationsPage() {
               <Button
                 className="h-12 rounded-xl"
                 disabled={busy || !pinterest?.configured}
-                onClick={() => connectPinterest.mutate({})}
+                onClick={() => connectPinterest.mutate()}
               >
                 Connecter Pinterest
               </Button>
@@ -184,7 +192,7 @@ function IntegrationsPage() {
                 variant="secondary"
                 className="h-12 rounded-xl"
                 disabled={busy || pinterest?.status !== "connected"}
-                onClick={() => syncPins.mutate({})}
+                onClick={() => syncPins.mutate()}
               >
                 <RefreshCw className={syncPins.isPending ? "size-4 animate-spin" : "size-4"} />
                 Synchroniser maintenant
@@ -228,7 +236,7 @@ function IntegrationsPage() {
               <Button
                 className="h-12 rounded-xl"
                 disabled={busy || !gumroad?.configured}
-                onClick={() => testGumroad.mutate({})}
+                onClick={() => testGumroad.mutate()}
               >
                 Tester la connexion
               </Button>
@@ -236,7 +244,7 @@ function IntegrationsPage() {
                 variant="secondary"
                 className="h-12 rounded-xl"
                 disabled={busy || gumroad?.status !== "connected"}
-                onClick={() => syncSales.mutate({})}
+                onClick={() => syncSales.mutate()}
               >
                 <RefreshCw className={syncSales.isPending ? "size-4 animate-spin" : "size-4"} />
                 Synchroniser maintenant
