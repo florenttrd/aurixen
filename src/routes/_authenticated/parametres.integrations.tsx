@@ -18,10 +18,14 @@ import {
 } from "@/lib/integrations.functions";
 
 export const Route = createFileRoute("/_authenticated/parametres/integrations")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    pinterest: typeof search["pinterest"] === "string" ? (search["pinterest"] as string) : undefined,
-    message: typeof search["message"] === "string" ? (search["message"] as string) : undefined,
-  }),
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { pinterest?: string; message?: string } => {
+    const out: { pinterest?: string; message?: string } = {};
+    if (typeof search["pinterest"] === "string") out.pinterest = search["pinterest"];
+    if (typeof search["message"] === "string") out.message = search["message"];
+    return out;
+  },
   head: () => ({
     meta: [
       { title: "Intégrations Pinterest & Gumroad — AURIXEN" },
