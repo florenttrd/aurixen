@@ -5,6 +5,7 @@ import {
   LayoutGrid,
   NotebookPen,
   Receipt,
+  Settings,
   Store,
 } from "lucide-react";
 
@@ -14,6 +15,7 @@ export const HUB_NAV: NavItem[] = [
   { to: "/hub", label: "Projets", icon: <LayoutGrid className="size-5" />, exact: true },
   { to: "/calendrier", label: "Calendrier", icon: <CalendarDays className="size-5" /> },
   { to: "/notes", label: "Écriture", icon: <NotebookPen className="size-5" /> },
+  { to: "/parametres", label: "Réglages", icon: <Settings className="size-5" /> },
 ];
 
 export const LEO_NAV: NavItem[] = [
