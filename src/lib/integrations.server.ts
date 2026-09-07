@@ -68,21 +68,10 @@ export async function setStatus(
 
 /** Status payload safe for the browser: never includes tokens. */
 export async function publicStatus(userId: string): Promise<IntegrationPublic[]> {
-  const pin = await readIntegration(userId, "pinterest");
   const gum = await readIntegration(userId, "gumroad");
-  const pinCfg = pinterestConfig();
   const gumCfg = gumroadConfig();
 
   return [
-    {
-      provider: "pinterest",
-      status: (pin?.status as IntegrationStatus) ?? "disconnected",
-      account_label: pin?.account_label ?? null,
-      last_sync_at: pin?.last_sync_at ?? null,
-      last_error: pin?.last_error ?? null,
-      configured: pinCfg.missing.length === 0,
-      missing_secrets: pinCfg.missing,
-    },
     {
       provider: "gumroad",
       status: gumCfg.missing.length
