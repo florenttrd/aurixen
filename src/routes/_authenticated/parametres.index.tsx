@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Plug } from "lucide-react";
+import { ArrowUpRight, FileUp, Plug } from "lucide-react";
 
 import { Shell, SectionTitle } from "@/components/aurixen/Shell";
 import { HUB_NAV } from "@/components/aurixen/navs";
@@ -18,16 +18,33 @@ function SettingsIndex() {
   return (
     <Shell wordmark="AURIXEN" subtitle="Paramètres" backTo="/hub" nav={HUB_NAV}>
       <SectionTitle overline="Configuration" title="Paramètres" />
-      <Link to="/parametres/integrations" className="surface-panel flex items-center gap-3 p-4">
-        <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary">
-          <Plug className="size-5" />
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="block text-sm font-medium">Intégrations</span>
-          <span className="block text-xs text-muted-foreground">Pinterest · Gumroad</span>
-        </span>
-        <ArrowUpRight className="size-4 text-muted-foreground" />
-      </Link>
+      <div className="space-y-3">
+        <Link to="/parametres/integrations" className="surface-panel flex items-center gap-3 p-4">
+          <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary">
+            <Plug className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-medium">Intégrations</span>
+            <span className="block text-xs text-muted-foreground">Gumroad</span>
+          </span>
+          <ArrowUpRight className="size-4 text-muted-foreground" />
+        </Link>
+        <Link
+          to="/parametres/import-pinterest"
+          className="surface-panel flex items-center gap-3 p-4"
+        >
+          <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary">
+            <FileUp className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-medium">Import Pinterest</span>
+            <span className="block text-xs text-muted-foreground">
+              Rapport collé ou fichier (PDF, markdown, capture)
+            </span>
+          </span>
+          <ArrowUpRight className="size-4 text-muted-foreground" />
+        </Link>
+      </div>
     </Shell>
   );
 }

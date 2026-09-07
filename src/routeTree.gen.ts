@@ -33,6 +33,7 @@ import { Route as AuthenticatedLionCalendrierRouteImport } from './routes/_authe
 import { Route as AuthenticatedLionNotesRouteImport } from './routes/_authenticated/lion.notes'
 import { Route as AuthenticatedLionRestaurantsRouteImport } from './routes/_authenticated/lion.restaurants'
 import { Route as AuthenticatedParametresIndexRouteImport } from './routes/_authenticated/parametres.index'
+import { Route as AuthenticatedParametresImportPinterestRouteImport } from './routes/_authenticated/parametres.import-pinterest'
 import { Route as AuthenticatedParametresIntegrationsRouteImport } from './routes/_authenticated/parametres.integrations'
 
 const IndexRoute = IndexRouteImport.update({
@@ -161,6 +162,12 @@ const AuthenticatedParametresIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedParametresRoute,
   } as any)
+const AuthenticatedParametresImportPinterestRoute =
+  AuthenticatedParametresImportPinterestRouteImport.update({
+    id: '/import-pinterest',
+    path: '/import-pinterest',
+    getParentRoute: () => AuthenticatedParametresRoute,
+  } as any)
 const AuthenticatedParametresIntegrationsRoute =
   AuthenticatedParametresIntegrationsRouteImport.update({
     id: '/integrations',
@@ -189,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
   '/leo/': typeof AuthenticatedLeoIndexRoute
   '/lion/': typeof AuthenticatedLionIndexRoute
@@ -212,6 +220,7 @@ export interface FileRoutesByTo {
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
   '/leo': typeof AuthenticatedLeoIndexRoute
   '/lion': typeof AuthenticatedLionIndexRoute
@@ -240,6 +249,7 @@ export interface FileRoutesById {
   '/_authenticated/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/_authenticated/lion/notes': typeof AuthenticatedLionNotesRoute
   '/_authenticated/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/_authenticated/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/_authenticated/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
   '/_authenticated/leo/': typeof AuthenticatedLeoIndexRoute
   '/_authenticated/lion/': typeof AuthenticatedLionIndexRoute
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/lion/calendrier'
     | '/lion/notes'
     | '/lion/restaurants'
+    | '/parametres/import-pinterest'
     | '/parametres/integrations'
     | '/leo/'
     | '/lion/'
@@ -291,6 +302,7 @@ export interface FileRouteTypes {
     | '/lion/calendrier'
     | '/lion/notes'
     | '/lion/restaurants'
+    | '/parametres/import-pinterest'
     | '/parametres/integrations'
     | '/leo'
     | '/lion'
@@ -318,6 +330,7 @@ export interface FileRouteTypes {
     | '/_authenticated/lion/calendrier'
     | '/_authenticated/lion/notes'
     | '/_authenticated/lion/restaurants'
+    | '/_authenticated/parametres/import-pinterest'
     | '/_authenticated/parametres/integrations'
     | '/_authenticated/leo/'
     | '/_authenticated/lion/'
@@ -502,6 +515,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedParametresIndexRouteImport
       parentRoute: typeof AuthenticatedParametresRoute
     }
+    '/_authenticated/parametres/import-pinterest': {
+      id: '/_authenticated/parametres/import-pinterest'
+      path: '/import-pinterest'
+      fullPath: '/parametres/import-pinterest'
+      preLoaderRoute: typeof AuthenticatedParametresImportPinterestRouteImport
+      parentRoute: typeof AuthenticatedParametresRoute
+    }
     '/_authenticated/parametres/integrations': {
       id: '/_authenticated/parametres/integrations'
       path: '/integrations'
@@ -555,12 +575,15 @@ const AuthenticatedLionRouteWithChildren =
   AuthenticatedLionRoute._addFileChildren(AuthenticatedLionRouteChildren)
 
 interface AuthenticatedParametresRouteChildren {
+  AuthenticatedParametresImportPinterestRoute: typeof AuthenticatedParametresImportPinterestRoute
   AuthenticatedParametresIntegrationsRoute: typeof AuthenticatedParametresIntegrationsRoute
   AuthenticatedParametresIndexRoute: typeof AuthenticatedParametresIndexRoute
 }
 
 const AuthenticatedParametresRouteChildren: AuthenticatedParametresRouteChildren =
   {
+    AuthenticatedParametresImportPinterestRoute:
+      AuthenticatedParametresImportPinterestRoute,
     AuthenticatedParametresIntegrationsRoute:
       AuthenticatedParametresIntegrationsRoute,
     AuthenticatedParametresIndexRoute: AuthenticatedParametresIndexRoute,
