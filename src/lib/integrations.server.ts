@@ -1,7 +1,7 @@
 // Server-only integration services. Tokens never leave this module.
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-export type Provider = "pinterest" | "gumroad";
+export type Provider = "gumroad";
 export type IntegrationStatus = "disconnected" | "connected" | "syncing" | "error";
 
 export type IntegrationPublic = {
@@ -16,17 +16,7 @@ export type IntegrationPublic = {
 
 /* --------------------------- secrets / config ---------------------------- */
 
-export function pinterestConfig() {
-  const clientId = process.env["PINTEREST_CLIENT_ID"] ?? "";
-  const clientSecret = process.env["PINTEREST_CLIENT_SECRET"] ?? "";
-  const redirectUri = process.env["PINTEREST_REDIRECT_URI"] ?? "";
-  const missing = [
-    ...(clientId ? [] : ["PINTEREST_CLIENT_ID"]),
-    ...(clientSecret ? [] : ["PINTEREST_CLIENT_SECRET"]),
-    ...(redirectUri ? [] : ["PINTEREST_REDIRECT_URI"]),
-  ];
-  return { clientId, clientSecret, redirectUri, missing };
-}
+// Pinterest n'utilise plus d'API : les statistiques arrivent par import de rapport.
 
 export function gumroadConfig() {
   const token = process.env["GUMROAD_ACCESS_TOKEN"] ?? "";
