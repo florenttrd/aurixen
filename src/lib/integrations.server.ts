@@ -123,9 +123,9 @@ export const GumroadService = {
     let next: string | null = "/sales";
     let guard = 0;
     while (next && guard < 50) {
-      const page = await this.call<{ sales?: GumroadSale[]; next_page_url?: string | null }>(next);
+      const page: { sales?: GumroadSale[]; next_page_url?: string | null } = await this.call(next);
       out.push(...(page.sales ?? []));
-      const url = page.next_page_url ?? null;
+      const url: string | null = page.next_page_url ?? null;
       next = url ? (url.startsWith("http") ? url : `https://api.gumroad.com${url}`) : null;
       guard += 1;
     }
