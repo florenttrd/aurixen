@@ -86,24 +86,27 @@ export async function publicStatus(userId: string): Promise<IntegrationPublic[]>
   ];
 }
 
-function isoDay(offsetDays: number) {
-  const d = new Date();
-  d.setDate(d.getDate() + offsetDays);
-  return d.toISOString().slice(0, 10);
-}
-
 /* ---------------------------- GumroadService ----------------------------- */
 
 const GUMROAD_API = "https://api.gumroad.com/v2";
 
+type GumroadSale = {
+  id: string;
+  product_name?: string;
+  price?: number;
+  currency?: string;
+  quantity?: number;
+  created_at?: string;
+};
+
 export const GumroadService = {
-  async call<T>(path: string): Promise<T> {
+  async call<T>(pathOrUrl: string): Promise<T> {
     const { token, missing } = gumroadConfig();
     if (missing.length) throw new Error("GUMROAD_ACCESS_TOKEN n'est pas configuré");
-    const res = await fetch(`${GUMROAD_API}${path}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const url = pathOrUrl.startsWith("http") ? pathOrUrl : `${GUMROAD_API}${pathOrUrl}`;
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
     const json = (await res.json().catch(() => ({}))) as { success?: boolean; message?: string };
+    if (res.status === 401) throw new Error("Jeton Gumroad refusé : vérifiez-le puis réessayez.");
     if (!res.ok || json.success === false) {
       throw new Error(json.message ?? `Gumroad API ${res.status}`);
     }
@@ -114,17 +117,19 @@ export const GumroadService = {
     return this.call<{ user?: { name?: string; email?: string } }>("/user");
   },
 
-  async sales(after: string) {
-    return this.call<{
-      sales?: {
-        id: string;
-        product_name?: string;
-        price?: number;
-        currency?: string;
-        quantity?: number;
-        created_at?: string;
-      }[];
-    }>(`/sales?after=${after}`);
+  /** Toutes les ventes, page par page. */
+  async allSales() {
+    const out: GumroadSale[] = [];
+    let next: string | null = "/sales";
+    let guard = 0;
+    while (next && guard < 50) {
+      const page: { sales?: GumroadSale[]; next_page_url?: string | null } = await this.call(next);
+      out.push(...(page.sales ?? []));
+      const url: string | null = page.next_page_url ?? null;
+      next = url ? (url.startsWith("http") ? url : `https://api.gumroad.com${url}`) : null;
+      guard += 1;
+    }
+    return out;
   },
 };
 
@@ -140,29 +145,29 @@ export async function testGumroad(userId: string) {
 }
 
 export async function syncGumroad(userId: string) {
-  const after = isoDay(-365);
-  const data = await GumroadService.sales(after);
-  const sales = data.sales ?? [];
-  for (const sale of sales) {
-    const { error } = await supabaseAdmin.from("sales").upsert(
-      {
-        user_id: userId,
-        external_id: sale.id,
-        product: sale.product_name ?? "Produit Gumroad",
-        amount: (sale.price ?? 0) / 100,
-        currency: (sale.currency ?? "usd").toUpperCase(),
-        quantity: sale.quantity ?? 1,
-        sold_at: sale.created_at ?? new Date().toISOString(),
-        source: "gumroad",
-      },
-      { onConflict: "user_id,external_id" },
-    );
+  const sales = await GumroadService.allSales();
+  const rows = sales.map((sale) => ({
+    user_id: userId,
+    external_id: sale.id,
+    product: sale.product_name?.trim() || "Produit Gumroad",
+    amount: (sale.price ?? 0) / 100,
+    currency: (sale.currency ?? "eur").toUpperCase(),
+    quantity: sale.quantity ?? 1,
+    sold_at: sale.created_at ?? new Date().toISOString(),
+    source: "gumroad",
+  }));
+
+  if (rows.length) {
+    const { error } = await supabaseAdmin
+      .from("sales")
+      .upsert(rows, { onConflict: "user_id,external_id" });
     if (error) throw new Error(error.message);
   }
+
   await upsertIntegration(userId, "gumroad", {
     status: "connected",
     last_sync_at: new Date().toISOString(),
     last_error: null,
   });
-  return { imported: sales.length };
+  return { imported: rows.length };
 }
