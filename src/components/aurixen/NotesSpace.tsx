@@ -190,7 +190,7 @@ export function NotesSpace({ projectSlug, title }: { projectSlug: string; title:
             </div>
           ) : null}
 
-          <DialogFooter>
+          <DialogFooter className="shrink-0">
             <Button
               className="h-12 w-full rounded-xl"
               onClick={() => {
