@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, FileUp, Plug } from "lucide-react";
+import { ArrowUpRight, FileUp, Plug, Store } from "lucide-react";
 
 import { Shell, SectionTitle } from "@/components/aurixen/Shell";
 import { HUB_NAV } from "@/components/aurixen/navs";
@@ -44,7 +44,23 @@ function SettingsIndex() {
           </span>
           <ArrowUpRight className="size-4 text-muted-foreground" />
         </Link>
+        <Link
+          to="/parametres/import-restaurants"
+          className="surface-panel flex items-center gap-3 p-4"
+        >
+          <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary">
+            <Store className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-medium">Import restaurants</span>
+            <span className="block text-xs text-muted-foreground">
+              Fiches rédigées par IA (tableau collé ou fichier)
+            </span>
+          </span>
+          <ArrowUpRight className="size-4 text-muted-foreground" />
+        </Link>
       </div>
+
     </Shell>
   );
 }
