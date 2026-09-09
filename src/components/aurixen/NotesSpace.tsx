@@ -153,12 +153,12 @@ export function NotesSpace({ projectSlug, title }: { projectSlug: string; title:
       )}
 
       <Dialog open={draft !== null} onOpenChange={(v) => !v && setDraft(null)}>
-        <DialogContent className="top-4 translate-y-0 sm:top-1/2 sm:-translate-y-1/2">
+        <DialogContent className="top-4 flex max-h-[calc(100dvh-2rem)] translate-y-0 flex-col overflow-hidden sm:top-1/2 sm:-translate-y-1/2">
           <DialogHeader className="text-left">
             <DialogTitle>{draft?.id ? "Modifier la note" : "Nouvelle note"}</DialogTitle>
           </DialogHeader>
           {draft ? (
-            <div className="space-y-3">
+            <div className="-mx-1 flex-1 space-y-3 overflow-y-auto px-1 pb-1">
               <Input
                 placeholder="Titre"
                 className="h-12"
@@ -182,13 +182,15 @@ export function NotesSpace({ projectSlug, title }: { projectSlug: string; title:
               </Select>
               <Textarea
                 placeholder="Écrivez librement…"
-                rows={10}
+                rows={6}
+                className="min-h-32"
                 value={draft.content}
                 onChange={(e) => setDraft({ ...draft, content: e.target.value })}
               />
             </div>
           ) : null}
-          <DialogFooter>
+
+          <DialogFooter className="shrink-0">
             <Button
               className="h-12 w-full rounded-xl"
               onClick={() => {
