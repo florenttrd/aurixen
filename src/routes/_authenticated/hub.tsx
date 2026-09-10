@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, CalendarDays, Plus } from "lucide-react";
+import { AlertTriangle, ArrowUpRight, CalendarDays, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { Shell, SectionTitle, StatCard } from "@/components/aurixen/Shell";
