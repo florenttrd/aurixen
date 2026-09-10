@@ -41,6 +41,46 @@ function Hub() {
   const { data: restaurants = [] } = useRestaurants();
   const { data: extra = [], refetch } = useExtraProjects();
   const [newProject, setNewProject] = useState<string | null>(null);
+  const [toDelete, setToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [step, setStep] = useState<1 | 2>(1);
+  const [confirmName, setConfirmName] = useState("");
+  const [password, setPassword] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  function closeDelete() {
+    setToDelete(null);
+    setStep(1);
+    setConfirmName("");
+    setPassword("");
+  }
+
+  async function confirmDelete() {
+    if (!toDelete) return;
+    setDeleting(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      const email = userData.user?.email;
+      if (!email) {
+        toast.error("Session expirée, reconnectez-vous.");
+        return;
+      }
+      const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+      if (authError) {
+        toast.error("Mot de passe incorrect.");
+        return;
+      }
+      const { error } = await supabase.from("projects").delete().eq("id", toDelete.id);
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      toast.success(`Projet « ${toDelete.name} » supprimé définitivement`);
+      closeDelete();
+      refetch();
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   const todayIso = toISODate(new Date());
   const upcoming = events.filter((e) => e.event_date >= todayIso).slice(0, 4);
