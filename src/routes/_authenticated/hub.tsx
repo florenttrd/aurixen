@@ -247,6 +247,74 @@ function Hub() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={toDelete !== null} onOpenChange={(v) => !v && closeDelete()}>
+        <DialogContent className="top-4 translate-y-0 sm:top-1/2 sm:-translate-y-1/2">
+          <DialogHeader className="text-left">
+            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="size-5 text-destructive" />
+              Supprimer un projet
+            </DialogTitle>
+          </DialogHeader>
+          {toDelete ? (
+            step === 1 ? (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Cette action est définitive et irréversible. Pour confirmer, écrivez exactement le
+                  nom du projet&nbsp;: <span className="font-semibold text-foreground">{toDelete.name}</span>
+                </p>
+                <Input
+                  className="h-12"
+                  placeholder="Nom du projet"
+                  value={confirmName}
+                  onChange={(e) => setConfirmName(e.target.value)}
+                />
+                <Button
+                  variant="destructive"
+                  className="h-12 w-full rounded-xl"
+                  disabled={confirmName.trim() !== toDelete.name}
+                  onClick={() => setStep(2)}
+                >
+                  Continuer
+                </Button>
+                <Button variant="ghost" className="h-11 w-full rounded-xl" onClick={closeDelete}>
+                  Annuler
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Dernière étape&nbsp;: saisissez votre mot de passe Aurixen pour supprimer
+                  définitivement «&nbsp;{toDelete.name}&nbsp;».
+                </p>
+                <Input
+                  type="password"
+                  autoComplete="current-password"
+                  className="h-12"
+                  placeholder="Mot de passe"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Button
+                  variant="destructive"
+                  className="h-12 w-full rounded-xl"
+                  disabled={password.length < 6 || deleting}
+                  onClick={confirmDelete}
+                >
+                  {deleting ? "Suppression…" : "Supprimer définitivement"}
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="h-11 w-full rounded-xl"
+                  onClick={() => setStep(1)}
+                >
+                  Retour
+                </Button>
+              </div>
+            )
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </Shell>
   );
 }
