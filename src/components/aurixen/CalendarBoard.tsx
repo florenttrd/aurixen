@@ -66,6 +66,16 @@ export function CalendarBoard({
     return (a.event_time ?? "99").localeCompare(b.event_time ?? "99");
   });
 
+  const todayIso = toISODate(today);
+
+  function isPast(e: CalendarEvent) {
+    if (e.event_date < todayIso) return true;
+    if (e.event_date > todayIso) return false;
+    if (!e.event_time) return false;
+    const now = `${String(today.getHours()).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
+    return e.event_time.slice(0, 5) < now;
+  }
+
   function shift(delta: number) {
     setCursor(new Date(cursor.getFullYear(), cursor.getMonth() + delta, 1));
   }
