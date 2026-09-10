@@ -136,14 +136,16 @@ export function CalendarBoard({
             if (!day) return <span key={`empty-${i}`} className="aspect-square" />;
             const iso = toISODate(day);
             const list = byDate.get(iso) ?? [];
-            const isToday = iso === toISODate(today);
+            const isToday = iso === todayIso;
+            const isPastDay = iso < todayIso;
             return (
               <button
                 key={iso}
                 type="button"
                 onClick={() => setSelected(iso)}
                 data-selected={iso === selected}
-                className="relative flex aspect-square flex-col items-center justify-center rounded-lg text-sm tabular-nums data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground"
+                data-past={isPastDay}
+                className="relative flex aspect-square flex-col items-center justify-center rounded-lg text-sm tabular-nums data-[past=true]:text-muted-foreground data-[past=true]:opacity-60 data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground data-[selected=true]:opacity-100"
               >
                 <span className={isToday ? "font-bold text-primary" : undefined}>
                   {day.getDate()}
