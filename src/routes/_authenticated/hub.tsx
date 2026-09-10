@@ -162,11 +162,26 @@ function Hub() {
           </li>
         ))}
         {extra.map((p) => (
-          <li key={p.id} className="surface-panel p-4">
-            <p className="text-lg font-semibold">{p.name}</p>
-            <p className="text-xs text-muted-foreground">
-              Espace en préparation · {p.tagline ?? "Nouveau projet"}
-            </p>
+          <li key={p.id} className="surface-panel flex items-center gap-3 p-4">
+            <span className="min-w-0 flex-1">
+              <span className="block text-lg font-semibold">{p.name}</span>
+              <span className="block truncate text-xs text-muted-foreground">
+                Espace en préparation · {p.tagline ?? "Nouveau projet"}
+              </span>
+            </span>
+            <button
+              type="button"
+              aria-label={`Supprimer le projet ${p.name}`}
+              onClick={() => {
+                setToDelete({ id: p.id, name: p.name });
+                setStep(1);
+                setConfirmName("");
+                setPassword("");
+              }}
+              className="flex size-10 shrink-0 items-center justify-center rounded-full text-destructive active:bg-muted"
+            >
+              <Trash2 className="size-4" />
+            </button>
           </li>
         ))}
         <li>
