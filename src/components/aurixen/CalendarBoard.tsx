@@ -66,6 +66,16 @@ export function CalendarBoard({
     return (a.event_time ?? "99").localeCompare(b.event_time ?? "99");
   });
 
+  const todayIso = toISODate(today);
+
+  function isPast(e: CalendarEvent) {
+    if (e.event_date < todayIso) return true;
+    if (e.event_date > todayIso) return false;
+    if (!e.event_time) return false;
+    const now = `${String(today.getHours()).padStart(2, "0")}:${String(today.getMinutes()).padStart(2, "0")}`;
+    return e.event_time.slice(0, 5) < now;
+  }
+
   function shift(delta: number) {
     setCursor(new Date(cursor.getFullYear(), cursor.getMonth() + delta, 1));
   }
@@ -126,14 +136,16 @@ export function CalendarBoard({
             if (!day) return <span key={`empty-${i}`} className="aspect-square" />;
             const iso = toISODate(day);
             const list = byDate.get(iso) ?? [];
-            const isToday = iso === toISODate(today);
+            const isToday = iso === todayIso;
+            const isPastDay = iso < todayIso;
             return (
               <button
                 key={iso}
                 type="button"
                 onClick={() => setSelected(iso)}
                 data-selected={iso === selected}
-                className="relative flex aspect-square flex-col items-center justify-center rounded-lg text-sm tabular-nums data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground"
+                data-past={isPastDay}
+                className="relative flex aspect-square flex-col items-center justify-center rounded-lg text-sm tabular-nums data-[past=true]:text-muted-foreground data-[past=true]:opacity-60 data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground data-[selected=true]:opacity-100"
               >
                 <span className={isToday ? "font-bold text-primary" : undefined}>
                   {day.getDate()}
@@ -170,7 +182,11 @@ export function CalendarBoard({
           <p className="text-sm text-muted-foreground">Aucun événement ce jour.</p>
         ) : (
           dayEvents.map((e) => (
-            <div key={e.id} className="surface-panel flex items-start gap-3 p-3">
+            <div
+              key={e.id}
+              data-past={isPast(e)}
+              className="surface-panel flex items-start gap-3 p-3 data-[past=true]:opacity-55"
+            >
               <span
                 className="mt-1.5 size-2.5 shrink-0 rounded-full"
                 style={{
@@ -183,10 +199,23 @@ export function CalendarBoard({
                 className="min-w-0 flex-1 text-left"
                 onClick={() => setDraft({ ...e })}
               >
-                <p className="text-sm font-medium">{e.title}</p>
+                <p
+                  className={
+                    isPast(e)
+                      ? "text-sm font-medium text-muted-foreground line-through"
+                      : "text-sm font-medium"
+                  }
+                >
+                  {e.title}
+                </p>
                 <p className="text-xs text-muted-foreground">
                   {e.event_time ? e.event_time.slice(0, 5) : "Toute la journée"} ·{" "}
                   {PROJECT_LABELS[e.project_slug] ?? e.project_slug}
+                  {isPast(e) ? (
+                    <span className="ml-2 rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
+                      Passé
+                    </span>
+                  ) : null}
                 </p>
                 {e.description ? (
                   <p className="mt-1 text-xs text-muted-foreground">{e.description}</p>

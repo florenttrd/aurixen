@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, CalendarDays, Plus } from "lucide-react";
+import { AlertTriangle, ArrowUpRight, CalendarDays, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { Shell, SectionTitle, StatCard } from "@/components/aurixen/Shell";
@@ -41,6 +41,46 @@ function Hub() {
   const { data: restaurants = [] } = useRestaurants();
   const { data: extra = [], refetch } = useExtraProjects();
   const [newProject, setNewProject] = useState<string | null>(null);
+  const [toDelete, setToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [step, setStep] = useState<1 | 2>(1);
+  const [confirmName, setConfirmName] = useState("");
+  const [password, setPassword] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  function closeDelete() {
+    setToDelete(null);
+    setStep(1);
+    setConfirmName("");
+    setPassword("");
+  }
+
+  async function confirmDelete() {
+    if (!toDelete) return;
+    setDeleting(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      const email = userData.user?.email;
+      if (!email) {
+        toast.error("Session expirée, reconnectez-vous.");
+        return;
+      }
+      const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+      if (authError) {
+        toast.error("Mot de passe incorrect.");
+        return;
+      }
+      const { error } = await supabase.from("projects").delete().eq("id", toDelete.id);
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      toast.success(`Projet « ${toDelete.name} » supprimé définitivement`);
+      closeDelete();
+      refetch();
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   const todayIso = toISODate(new Date());
   const upcoming = events.filter((e) => e.event_date >= todayIso).slice(0, 4);
@@ -122,11 +162,26 @@ function Hub() {
           </li>
         ))}
         {extra.map((p) => (
-          <li key={p.id} className="surface-panel p-4">
-            <p className="text-lg font-semibold">{p.name}</p>
-            <p className="text-xs text-muted-foreground">
-              Espace en préparation · {p.tagline ?? "Nouveau projet"}
-            </p>
+          <li key={p.id} className="surface-panel flex items-center gap-3 p-4">
+            <span className="min-w-0 flex-1">
+              <span className="block text-lg font-semibold">{p.name}</span>
+              <span className="block truncate text-xs text-muted-foreground">
+                Espace en préparation · {p.tagline ?? "Nouveau projet"}
+              </span>
+            </span>
+            <button
+              type="button"
+              aria-label={`Supprimer le projet ${p.name}`}
+              onClick={() => {
+                setToDelete({ id: p.id, name: p.name });
+                setStep(1);
+                setConfirmName("");
+                setPassword("");
+              }}
+              className="flex size-10 shrink-0 items-center justify-center rounded-full text-destructive active:bg-muted"
+            >
+              <Trash2 className="size-4" />
+            </button>
           </li>
         ))}
         <li>
@@ -190,6 +245,74 @@ function Hub() {
               Ajouter
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={toDelete !== null} onOpenChange={(v) => !v && closeDelete()}>
+        <DialogContent className="top-4 translate-y-0 sm:top-1/2 sm:-translate-y-1/2">
+          <DialogHeader className="text-left">
+            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="size-5 text-destructive" />
+              Supprimer un projet
+            </DialogTitle>
+          </DialogHeader>
+          {toDelete ? (
+            step === 1 ? (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Cette action est définitive et irréversible. Pour confirmer, écrivez exactement le
+                  nom du projet&nbsp;: <span className="font-semibold text-foreground">{toDelete.name}</span>
+                </p>
+                <Input
+                  className="h-12"
+                  placeholder="Nom du projet"
+                  value={confirmName}
+                  onChange={(e) => setConfirmName(e.target.value)}
+                />
+                <Button
+                  variant="destructive"
+                  className="h-12 w-full rounded-xl"
+                  disabled={confirmName.trim() !== toDelete.name}
+                  onClick={() => setStep(2)}
+                >
+                  Continuer
+                </Button>
+                <Button variant="ghost" className="h-11 w-full rounded-xl" onClick={closeDelete}>
+                  Annuler
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Dernière étape&nbsp;: saisissez votre mot de passe Aurixen pour supprimer
+                  définitivement «&nbsp;{toDelete.name}&nbsp;».
+                </p>
+                <Input
+                  type="password"
+                  autoComplete="current-password"
+                  className="h-12"
+                  placeholder="Mot de passe"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Button
+                  variant="destructive"
+                  className="h-12 w-full rounded-xl"
+                  disabled={password.length < 6 || deleting}
+                  onClick={confirmDelete}
+                >
+                  {deleting ? "Suppression…" : "Supprimer définitivement"}
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="h-11 w-full rounded-xl"
+                  onClick={() => setStep(1)}
+                >
+                  Retour
+                </Button>
+              </div>
+            )
+          ) : null}
         </DialogContent>
       </Dialog>
     </Shell>
