@@ -182,7 +182,11 @@ export function CalendarBoard({
           <p className="text-sm text-muted-foreground">Aucun événement ce jour.</p>
         ) : (
           dayEvents.map((e) => (
-            <div key={e.id} className="surface-panel flex items-start gap-3 p-3">
+            <div
+              key={e.id}
+              data-past={isPast(e)}
+              className="surface-panel flex items-start gap-3 p-3 data-[past=true]:opacity-55"
+            >
               <span
                 className="mt-1.5 size-2.5 shrink-0 rounded-full"
                 style={{
@@ -195,10 +199,23 @@ export function CalendarBoard({
                 className="min-w-0 flex-1 text-left"
                 onClick={() => setDraft({ ...e })}
               >
-                <p className="text-sm font-medium">{e.title}</p>
+                <p
+                  className={
+                    isPast(e)
+                      ? "text-sm font-medium text-muted-foreground line-through"
+                      : "text-sm font-medium"
+                  }
+                >
+                  {e.title}
+                </p>
                 <p className="text-xs text-muted-foreground">
                   {e.event_time ? e.event_time.slice(0, 5) : "Toute la journée"} ·{" "}
                   {PROJECT_LABELS[e.project_slug] ?? e.project_slug}
+                  {isPast(e) ? (
+                    <span className="ml-2 rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
+                      Passé
+                    </span>
+                  ) : null}
                 </p>
                 {e.description ? (
                   <p className="mt-1 text-xs text-muted-foreground">{e.description}</p>
