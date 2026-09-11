@@ -232,6 +232,84 @@ export type Database = {
         }
         Relationships: []
       }
+      journal_entries: {
+        Row: {
+          content: string
+          created_at: string
+          entry_date: string
+          id: string
+          mood: string | null
+          project_slug: string
+          tags: string[]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          entry_date?: string
+          id?: string
+          mood?: string | null
+          project_slug?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          entry_date?: string
+          id?: string
+          mood?: string | null
+          project_slug?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      module_records: {
+        Row: {
+          created_at: string
+          data: Json
+          id: string
+          module_key: string
+          position: number
+          project_slug: string
+          status: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          data?: Json
+          id?: string
+          module_key: string
+          position?: number
+          project_slug: string
+          status?: string | null
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          id?: string
+          module_key?: string
+          position?: number
+          project_slug?: string
+          status?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       notes: {
         Row: {
           category: string
@@ -373,32 +451,116 @@ export type Database = {
         }
         Relationships: []
       }
+      project_modules: {
+        Row: {
+          config: Json
+          created_at: string
+          enabled: boolean
+          fields: Json
+          icon: string | null
+          id: string
+          kind: string
+          label: string | null
+          module_key: string
+          position: number
+          project_slug: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          fields?: Json
+          icon?: string | null
+          id?: string
+          kind?: string
+          label?: string | null
+          module_key: string
+          position?: number
+          project_slug: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          fields?: Json
+          icon?: string | null
+          id?: string
+          kind?: string
+          label?: string | null
+          module_key?: string
+          position?: number
+          project_slug?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           accent: string
+          accent_secondary: string
           created_at: string
+          effects: string
+          font_body: string
+          font_display: string
+          home_density: string
+          home_layout: Json
           id: string
+          initials: string | null
           name: string
+          radius: number
           slug: string
+          sort_order: number
+          subtitle: string | null
+          surface: string
           tagline: string | null
+          updated_at: string
           user_id: string
         }
         Insert: {
           accent?: string
+          accent_secondary?: string
           created_at?: string
+          effects?: string
+          font_body?: string
+          font_display?: string
+          home_density?: string
+          home_layout?: Json
           id?: string
+          initials?: string | null
           name: string
+          radius?: number
           slug: string
+          sort_order?: number
+          subtitle?: string | null
+          surface?: string
           tagline?: string | null
+          updated_at?: string
           user_id: string
         }
         Update: {
           accent?: string
+          accent_secondary?: string
           created_at?: string
+          effects?: string
+          font_body?: string
+          font_display?: string
+          home_density?: string
+          home_layout?: Json
           id?: string
+          initials?: string | null
           name?: string
+          radius?: number
           slug?: string
+          sort_order?: number
+          subtitle?: string | null
+          surface?: string
           tagline?: string | null
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -495,6 +657,48 @@ export type Database = {
           quantity?: number
           sold_at?: string
           source?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          created_at: string
+          done: boolean
+          due_date: string | null
+          id: string
+          notes: string | null
+          position: number
+          priority: string
+          project_slug: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          done?: boolean
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          position?: number
+          priority?: string
+          project_slug?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          done?: boolean
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          position?: number
+          priority?: string
+          project_slug?: string
+          title?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
