@@ -62,7 +62,7 @@ export function TasksSpace({ projectSlug, title = "Tâches" }: { projectSlug: st
             <li key={task.id} className="surface-panel flex items-center gap-3 p-3">
               <Checkbox
                 checked={task.done}
-                onCheckedChange={(v) => save.mutate({ id: task.id, ...task, done: Boolean(v) })}
+                onCheckedChange={(v) => save.mutate({ ...task, done: Boolean(v) })}
                 aria-label="Terminer la tâche"
                 className="size-6"
               />
