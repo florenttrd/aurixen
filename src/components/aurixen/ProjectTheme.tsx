@@ -32,7 +32,7 @@ const SURFACE_TOKENS: Record<string, Surface> = {
     surface: "#182034",
     muted: "#1e2740",
     mutedForeground: "#a5b0c8",
-    border: "#2b3category",
+    border: "#2b3550",
     input: "#2b3550",
   },
   ardoise: {
