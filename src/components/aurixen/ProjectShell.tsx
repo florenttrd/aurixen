@@ -10,10 +10,14 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 
 export type ProjectNavItem = { to: string; label: string; icon: ReactNode; exact?: boolean };
 
-export function moduleHref(slug: string, module: ProjectModule) {
+export function moduleHref(slug: string, module: ProjectModule): string {
   const universal = UNIVERSAL_MODULES.find((u) => u.key === module.module_key);
   if (universal) return universal.path ? `/p/${slug}/${universal.path}` : `/p/${slug}`;
   return `/p/${slug}/m/${module.module_key}`;
+}
+
+export function projectHref(slug: string, suffix = ""): string {
+  return suffix ? `/p/${slug}/${suffix}` : `/p/${slug}`;
 }
 
 export function projectNavItems(slug: string, modules: ProjectModule[]): ProjectNavItem[] {
