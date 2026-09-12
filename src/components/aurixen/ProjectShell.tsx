@@ -132,7 +132,7 @@ export function ProjectShell({
             ))}
             <li>
               <Link
-                to={`/p/${project.slug}/reglages`}
+                to={projectHref(project.slug, "reglages")}
                 onClick={() => setMoreOpen(false)}
                 className="surface-panel flex min-h-20 flex-col items-center justify-center gap-2 p-3 text-center text-[11px] font-medium text-muted-foreground active:opacity-90"
               >
