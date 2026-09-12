@@ -70,7 +70,7 @@ export function ProjectShell({
             </p>
           </div>
           <Link
-            to={`/p/${project.slug}/reglages`}
+            to={projectHref(project.slug, "reglages")}
             aria-label="Réglages du projet"
             className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground active:bg-muted"
           >
