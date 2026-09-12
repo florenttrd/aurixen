@@ -51,7 +51,7 @@ export type ProjectModule = {
 function normalizeProject(row: Record<string, unknown>): Project {
   return {
     ...(row as unknown as Project),
-    home_layout: (row.home_layout ?? []) as HomeBlock[],
+    home_layout: (row["home_layout"] ?? []) as HomeBlock[],
   };
 }
 
