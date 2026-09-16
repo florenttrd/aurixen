@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AlertTriangle, ArrowUpRight, CalendarDays, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
@@ -35,12 +35,12 @@ function useExtraProjects() {
 }
 
 function Hub() {
+  const navigate = useNavigate();
   const { data: events = [] } = useEvents();
   const { data: pins = [] } = usePins();
   const { data: sales = [] } = useSales();
   const { data: restaurants = [] } = useRestaurants();
   const { data: extra = [], refetch } = useExtraProjects();
-  const [newProject, setNewProject] = useState<string | null>(null);
   const [toDelete, setToDelete] = useState<{ id: string; name: string } | null>(null);
   const [step, setStep] = useState<1 | 2>(1);
   const [confirmName, setConfirmName] = useState("");
@@ -61,7 +61,7 @@ function Hub() {
       const { data: userData } = await supabase.auth.getUser();
       const email = userData.user?.email;
       if (!email) {
-        toast.error("Session expirée, reconnectez-vous.");
+        toast.error("Session expir\u00e9e, reconnectez-vous.");
         return;
       }
       const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
@@ -74,7 +74,7 @@ function Hub() {
         toast.error(error.message);
         return;
       }
-      toast.success(`Projet « ${toDelete.name} » supprimé définitivement`);
+      toast.success(`Projet \u00ab ${toDelete.name} \u00bb supprim\u00e9 d\u00e9finitivement`);
       closeDelete();
       refetch();
     } finally {
@@ -86,43 +86,22 @@ function Hub() {
   const upcoming = events.filter((e) => e.event_date >= todayIso).slice(0, 4);
   const revenue = sales.reduce((sum, s) => sum + Number(s.amount), 0);
 
-  async function createProject() {
-    if (!newProject?.trim()) return;
-    const { data: userData } = await supabase.auth.getUser();
-    if (!userData.user) return;
-    const slug = newProject
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
-    const { error } = await supabase
-      .from("projects")
-      .insert({ user_id: userData.user.id, slug, name: newProject.trim() });
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Projet ajouté");
-    setNewProject(null);
-    refetch();
-  }
-
   return (
     <Shell wordmark="Aurixen" subtitle="Centre de pilotage" nav={HUB_NAV}>
       <section className="mb-8">
         <p className="text-[10px] uppercase tracking-[0.3em] text-primary">Hub central</p>
         <h1 className="mt-2 text-3xl font-semibold leading-tight">
-          Tous vos projets, <span className="gradient-text">un seul système</span>
+          Tous vos projets, <span className="gradient-text">un seul syst\u00e8me</span>
         </h1>
         <div className="mt-5 grid grid-cols-2 gap-3">
           <StatCard label="Revenus" value={formatMoney(revenue)} hint={`${sales.length} ventes`} />
           <StatCard
             label="Pins"
             value={String(pins.length)}
-            hint={`${pins.filter((p) => p.status === "publie").length} publiés`}
+            hint={`${pins.filter((p) => p.status === "publie").length} publi\u00e9s`}
           />
           <StatCard label="Restaurants" value={String(restaurants.length)} hint="Base Danse du Lion" />
-          <StatCard label="Événements" value={String(events.length)} hint="Tous projets" />
+          <StatCard label="\u00c9v\u00e9nements" value={String(events.length)} hint="Tous projets" />
         </div>
       </section>
 
@@ -162,32 +141,35 @@ function Hub() {
           </li>
         ))}
         {extra.map((p) => (
-          <li key={p.id} className="surface-panel flex items-center gap-3 p-4">
-            <span className="min-w-0 flex-1">
-              <span className="block text-lg font-semibold">{p.name}</span>
-              <span className="block truncate text-xs text-muted-foreground">
-                Espace en préparation · {p.tagline ?? "Nouveau projet"}
+          <li key={p.id}>
+            <Link to={`/p/${p.slug}`} className="surface-panel flex items-center gap-3 p-4 active:opacity-90">
+              <span className="min-w-0 flex-1">
+                <span className="block text-lg font-semibold">{p.name}</span>
+                <span className="block truncate text-xs text-muted-foreground">
+                  Espace en pr\u00e9paration \u00b7 {p.tagline ?? "Nouveau projet"}
+                </span>
               </span>
-            </span>
-            <button
-              type="button"
-              aria-label={`Supprimer le projet ${p.name}`}
-              onClick={() => {
-                setToDelete({ id: p.id, name: p.name });
-                setStep(1);
-                setConfirmName("");
-                setPassword("");
-              }}
-              className="flex size-10 shrink-0 items-center justify-center rounded-full text-destructive active:bg-muted"
-            >
-              <Trash2 className="size-4" />
-            </button>
+              <button
+                type="button"
+                aria-label={`Supprimer le projet ${p.name}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToDelete({ id: p.id, name: p.name });
+                  setStep(1);
+                  setConfirmName("");
+                  setPassword("");
+                }}
+                className="flex size-10 shrink-0 items-center justify-center rounded-full text-destructive active:bg-muted"
+              >
+                <Trash2 className="size-4" />
+              </button>
+            </Link>
           </li>
         ))}
         <li>
           <button
             type="button"
-            onClick={() => setNewProject("")}
+            onClick={() => navigate({ to: "/nouveau-projet" })}
             className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-border text-sm text-muted-foreground active:bg-muted"
           >
             <Plus className="size-4" /> Ajouter un projet
@@ -196,10 +178,10 @@ function Hub() {
       </ul>
 
       <section className="mt-8">
-        <SectionTitle overline="Vision d'ensemble" title="À venir" />
+        <SectionTitle overline="Vision d'ensemble" title="\u00c0 venir" />
         {upcoming.length === 0 ? (
           <div className="surface-panel p-5 text-sm text-muted-foreground">
-            Aucun événement planifié.{" "}
+            Aucun \u00e9v\u00e9nement planifi\u00e9.{" "}
             <Link to="/calendrier" className="text-primary underline underline-offset-4">
               Ouvrir le calendrier global
             </Link>
@@ -213,7 +195,7 @@ function Hub() {
                   <span className="block truncate text-sm font-medium">{e.title}</span>
                   <span className="block text-xs text-muted-foreground">
                     {formatDate(e.event_date)}
-                    {e.event_time ? ` · ${e.event_time.slice(0, 5)}` : ""}
+                    {e.event_time ? ` \u00b7 ${e.event_time.slice(0, 5)}` : ""}
                   </span>
                 </span>
                 <span
@@ -229,25 +211,6 @@ function Hub() {
         )}
       </section>
 
-      <Dialog open={newProject !== null} onOpenChange={(v) => !v && setNewProject(null)}>
-        <DialogContent>
-          <DialogHeader className="text-left">
-            <DialogTitle>Nouveau projet</DialogTitle>
-          </DialogHeader>
-          <Input
-            className="h-12"
-            placeholder="Nom du projet"
-            value={newProject ?? ""}
-            onChange={(e) => setNewProject(e.target.value)}
-          />
-          <DialogFooter>
-            <Button className="h-12 w-full rounded-xl" onClick={createProject}>
-              Ajouter
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
       <Dialog open={toDelete !== null} onOpenChange={(v) => !v && closeDelete()}>
         <DialogContent className="top-4 translate-y-0 sm:top-1/2 sm:-translate-y-1/2">
           <DialogHeader className="text-left">
@@ -260,7 +223,7 @@ function Hub() {
             step === 1 ? (
               <div className="space-y-3">
                 <p className="text-sm text-muted-foreground">
-                  Cette action est définitive et irréversible. Pour confirmer, écrivez exactement le
+                  Cette action est d\u00e9finitive et irr\u00e9versible. Pour confirmer, \u00e9crivez exactement le
                   nom du projet&nbsp;: <span className="font-semibold text-foreground">{toDelete.name}</span>
                 </p>
                 <Input
@@ -284,8 +247,8 @@ function Hub() {
             ) : (
               <div className="space-y-3">
                 <p className="text-sm text-muted-foreground">
-                  Dernière étape&nbsp;: saisissez votre mot de passe Aurixen pour supprimer
-                  définitivement «&nbsp;{toDelete.name}&nbsp;».
+                  Derni\u00e8re \u00e9tape&nbsp;: saisissez votre mot de passe Aurixen pour supprimer
+                  d\u00e9finitivement \u00ab&nbsp;{toDelete.name}&nbsp;\u00bb.
                 </p>
                 <Input
                   type="password"
@@ -301,7 +264,7 @@ function Hub() {
                   disabled={password.length < 6 || deleting}
                   onClick={confirmDelete}
                 >
-                  {deleting ? "Suppression…" : "Supprimer définitivement"}
+                  {deleting ? "Suppression\u2026" : "Supprimer d\u00e9finitivement"}
                 </Button>
                 <Button
                   variant="ghost"
