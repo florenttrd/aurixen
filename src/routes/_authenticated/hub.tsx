@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AlertTriangle, ArrowUpRight, CalendarDays, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
@@ -162,32 +162,35 @@ function Hub() {
           </li>
         ))}
         {extra.map((p) => (
-          <li key={p.id} className="surface-panel flex items-center gap-3 p-4">
-            <span className="min-w-0 flex-1">
-              <span className="block text-lg font-semibold">{p.name}</span>
-              <span className="block truncate text-xs text-muted-foreground">
-                Espace en préparation · {p.tagline ?? "Nouveau projet"}
+          <li key={p.id}>
+            <Link to={`/p/${p.slug}`} className="surface-panel flex items-center gap-3 p-4 active:opacity-90">
+              <span className="min-w-0 flex-1">
+                <span className="block text-lg font-semibold">{p.name}</span>
+                <span className="block truncate text-xs text-muted-foreground">
+                  Espace en préparation · {p.tagline ?? "Nouveau projet"}
+                </span>
               </span>
-            </span>
-            <button
-              type="button"
-              aria-label={`Supprimer le projet ${p.name}`}
-              onClick={() => {
-                setToDelete({ id: p.id, name: p.name });
-                setStep(1);
-                setConfirmName("");
-                setPassword("");
-              }}
-              className="flex size-10 shrink-0 items-center justify-center rounded-full text-destructive active:bg-muted"
-            >
-              <Trash2 className="size-4" />
-            </button>
+              <button
+                type="button"
+                aria-label={`Supprimer le projet ${p.name}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToDelete({ id: p.id, name: p.name });
+                  setStep(1);
+                  setConfirmName("");
+                  setPassword("");
+                }}
+                className="flex size-10 shrink-0 items-center justify-center rounded-full text-destructive active:bg-muted"
+              >
+                <Trash2 className="size-4" />
+              </button>
+            </Link>
           </li>
         ))}
         <li>
           <button
             type="button"
-            onClick={() => setNewProject("")}
+            onClick={() => navigate({ to: "/nouveau-projet" })}
             className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-border text-sm text-muted-foreground active:bg-muted"
           >
             <Plus className="size-4" /> Ajouter un projet

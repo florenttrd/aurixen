@@ -15,7 +15,7 @@ export const PROJECTS: ProjectMeta[] = [
     name: "Léo Valen",
     tagline: "Produits éducatifs · Pinterest · Analytics",
     theme: "theme-leo",
-    to: "/leo",
+    to: "/p/leo-valen",
     swatch: "#3d8bff",
   },
   {
@@ -23,7 +23,7 @@ export const PROJECTS: ProjectMeta[] = [
     name: "Danse du Lion",
     tagline: "Restaurants · Prestations · Disponibilités",
     theme: "theme-lion",
-    to: "/lion",
+    to: "/p/danse-du-lion",
     swatch: "#d43b2c",
   },
 ];
