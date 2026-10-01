@@ -37,6 +37,7 @@ import { Route as AuthenticatedParametresIndexRouteImport } from './routes/_auth
 import { Route as AuthenticatedParametresImportPinterestRouteImport } from './routes/_authenticated/parametres.import-pinterest'
 import { Route as AuthenticatedParametresImportRestaurantsRouteImport } from './routes/_authenticated/parametres.import-restaurants'
 import { Route as AuthenticatedParametresIntegrationsRouteImport } from './routes/_authenticated/parametres.integrations'
+import { Route as AuthenticatedPSlugIndexRouteImport } from './routes/_authenticated/p.$slug.index'
 import { Route as AuthenticatedPSlugCalendrierRouteImport } from './routes/_authenticated/p.$slug.calendrier'
 import { Route as AuthenticatedPSlugFichiersRouteImport } from './routes/_authenticated/p.$slug.fichiers'
 import { Route as AuthenticatedPSlugJournalRouteImport } from './routes/_authenticated/p.$slug.journal'
@@ -194,6 +195,11 @@ const AuthenticatedParametresIntegrationsRoute =
     path: '/integrations',
     getParentRoute: () => AuthenticatedParametresRoute,
   } as any)
+const AuthenticatedPSlugIndexRoute = AuthenticatedPSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedPSlugRoute,
+} as any)
 const AuthenticatedPSlugCalendrierRoute =
   AuthenticatedPSlugCalendrierRouteImport.update({
     id: '/calendrier',
@@ -270,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/p/$slug/notes': typeof AuthenticatedPSlugNotesRoute
   '/p/$slug/recherche': typeof AuthenticatedPSlugRechercheRoute
   '/p/$slug/taches': typeof AuthenticatedPSlugTachesRoute
+  '/p/$slug/': typeof AuthenticatedPSlugIndexRoute
   '/p/$slug/m/$moduleKey': typeof AuthenticatedPSlugMModuleKeyRoute
 }
 export interface FileRoutesByTo {
@@ -290,7 +297,6 @@ export interface FileRoutesByTo {
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
-  '/p/$slug': typeof AuthenticatedPSlugRouteWithChildren
   '/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
@@ -303,6 +309,7 @@ export interface FileRoutesByTo {
   '/p/$slug/notes': typeof AuthenticatedPSlugNotesRoute
   '/p/$slug/recherche': typeof AuthenticatedPSlugRechercheRoute
   '/p/$slug/taches': typeof AuthenticatedPSlugTachesRoute
+  '/p/$slug': typeof AuthenticatedPSlugIndexRoute
   '/p/$slug/m/$moduleKey': typeof AuthenticatedPSlugMModuleKeyRoute
 }
 export interface FileRoutesById {
@@ -341,6 +348,7 @@ export interface FileRoutesById {
   '/_authenticated/p/$slug/notes': typeof AuthenticatedPSlugNotesRoute
   '/_authenticated/p/$slug/recherche': typeof AuthenticatedPSlugRechercheRoute
   '/_authenticated/p/$slug/taches': typeof AuthenticatedPSlugTachesRoute
+  '/_authenticated/p/$slug/': typeof AuthenticatedPSlugIndexRoute
   '/_authenticated/p/$slug/m/$moduleKey': typeof AuthenticatedPSlugMModuleKeyRoute
 }
 export interface FileRouteTypes {
@@ -379,6 +387,7 @@ export interface FileRouteTypes {
     | '/p/$slug/notes'
     | '/p/$slug/recherche'
     | '/p/$slug/taches'
+    | '/p/$slug/'
     | '/p/$slug/m/$moduleKey'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -399,7 +408,6 @@ export interface FileRouteTypes {
     | '/lion/calendrier'
     | '/lion/notes'
     | '/lion/restaurants'
-    | '/p/$slug'
     | '/parametres/import-pinterest'
     | '/parametres/import-restaurants'
     | '/parametres/integrations'
@@ -412,6 +420,7 @@ export interface FileRouteTypes {
     | '/p/$slug/notes'
     | '/p/$slug/recherche'
     | '/p/$slug/taches'
+    | '/p/$slug'
     | '/p/$slug/m/$moduleKey'
   id:
     | '__root__'
@@ -449,6 +458,7 @@ export interface FileRouteTypes {
     | '/_authenticated/p/$slug/notes'
     | '/_authenticated/p/$slug/recherche'
     | '/_authenticated/p/$slug/taches'
+    | '/_authenticated/p/$slug/'
     | '/_authenticated/p/$slug/m/$moduleKey'
   fileRoutesById: FileRoutesById
 }
@@ -658,6 +668,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedParametresIntegrationsRouteImport
       parentRoute: typeof AuthenticatedParametresRoute
     }
+    '/_authenticated/p/$slug/': {
+      id: '/_authenticated/p/$slug/'
+      path: '/'
+      fullPath: '/p/$slug/'
+      preLoaderRoute: typeof AuthenticatedPSlugIndexRouteImport
+      parentRoute: typeof AuthenticatedPSlugRoute
+    }
     '/_authenticated/p/$slug/calendrier': {
       id: '/_authenticated/p/$slug/calendrier'
       path: '/calendrier'
@@ -782,6 +799,7 @@ interface AuthenticatedPSlugRouteChildren {
   AuthenticatedPSlugNotesRoute: typeof AuthenticatedPSlugNotesRoute
   AuthenticatedPSlugRechercheRoute: typeof AuthenticatedPSlugRechercheRoute
   AuthenticatedPSlugTachesRoute: typeof AuthenticatedPSlugTachesRoute
+  AuthenticatedPSlugIndexRoute: typeof AuthenticatedPSlugIndexRoute
   AuthenticatedPSlugMModuleKeyRoute: typeof AuthenticatedPSlugMModuleKeyRoute
 }
 
@@ -792,6 +810,7 @@ const AuthenticatedPSlugRouteChildren: AuthenticatedPSlugRouteChildren = {
   AuthenticatedPSlugNotesRoute: AuthenticatedPSlugNotesRoute,
   AuthenticatedPSlugRechercheRoute: AuthenticatedPSlugRechercheRoute,
   AuthenticatedPSlugTachesRoute: AuthenticatedPSlugTachesRoute,
+  AuthenticatedPSlugIndexRoute: AuthenticatedPSlugIndexRoute,
   AuthenticatedPSlugMModuleKeyRoute: AuthenticatedPSlugMModuleKeyRoute,
 }
 
