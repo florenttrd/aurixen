@@ -1,21 +1,29 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+
 import { RecordsSpace } from "@/components/aurixen/RecordsSpace";
-import { useProjectCtx } from "@/components/aurixen/ProjectContext";
+import { useProjectModules } from "@/hooks/useProjectSystem";
 import { findModuleDef } from "@/lib/modules";
 
-export const Route = createFileRoute("/_authenticated/p/$slug/m/$moduleKey")({ component: ModuleRecordsPage });
+export const Route = createFileRoute("/_authenticated/p/$slug/m/$moduleKey")({
+  component: ModulePage,
+});
 
-function ModuleRecordsPage() {
-  const { slug, modules } = useProjectCtx();
-  const { moduleKey } = useParams({ strict: false });
+function ModulePage() {
+  const { slug, moduleKey } = Route.useParams();
+  const { data: modules = [], isLoading } = useProjectModules(slug);
   const mod = modules.find((m) => m.module_key === moduleKey);
   const def = findModuleDef(moduleKey);
+
+  if (isLoading) return <p className="text-sm text-muted-foreground">Chargement…</p>;
+  if (!mod && !def) return <p className="text-sm text-muted-foreground">Module introuvable.</p>;
+
+  const fields = mod?.fields?.length ? mod.fields : (def?.fields ?? []);
   return (
     <RecordsSpace
       projectSlug={slug}
       moduleKey={moduleKey}
       label={mod?.label ?? def?.label ?? moduleKey}
-      fields={mod?.fields ?? def?.fields ?? []}
+      fields={fields}
     />
   );
 }
