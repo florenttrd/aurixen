@@ -32,10 +32,18 @@ import { Route as AuthenticatedLionIndexRouteImport } from './routes/_authentica
 import { Route as AuthenticatedLionCalendrierRouteImport } from './routes/_authenticated/lion.calendrier'
 import { Route as AuthenticatedLionNotesRouteImport } from './routes/_authenticated/lion.notes'
 import { Route as AuthenticatedLionRestaurantsRouteImport } from './routes/_authenticated/lion.restaurants'
+import { Route as AuthenticatedPSlugRouteImport } from './routes/_authenticated/p.$slug'
 import { Route as AuthenticatedParametresIndexRouteImport } from './routes/_authenticated/parametres.index'
 import { Route as AuthenticatedParametresImportPinterestRouteImport } from './routes/_authenticated/parametres.import-pinterest'
 import { Route as AuthenticatedParametresImportRestaurantsRouteImport } from './routes/_authenticated/parametres.import-restaurants'
 import { Route as AuthenticatedParametresIntegrationsRouteImport } from './routes/_authenticated/parametres.integrations'
+import { Route as AuthenticatedPSlugCalendrierRouteImport } from './routes/_authenticated/p.$slug.calendrier'
+import { Route as AuthenticatedPSlugFichiersRouteImport } from './routes/_authenticated/p.$slug.fichiers'
+import { Route as AuthenticatedPSlugJournalRouteImport } from './routes/_authenticated/p.$slug.journal'
+import { Route as AuthenticatedPSlugNotesRouteImport } from './routes/_authenticated/p.$slug.notes'
+import { Route as AuthenticatedPSlugRechercheRouteImport } from './routes/_authenticated/p.$slug.recherche'
+import { Route as AuthenticatedPSlugTachesRouteImport } from './routes/_authenticated/p.$slug.taches'
+import { Route as AuthenticatedPSlugMModuleKeyRouteImport } from './routes/_authenticated/p.$slug.m.$moduleKey'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -157,6 +165,11 @@ const AuthenticatedLionRestaurantsRoute =
     path: '/restaurants',
     getParentRoute: () => AuthenticatedLionRoute,
   } as any)
+const AuthenticatedPSlugRoute = AuthenticatedPSlugRouteImport.update({
+  id: '/p/$slug',
+  path: '/p/$slug',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedParametresIndexRoute =
   AuthenticatedParametresIndexRouteImport.update({
     id: '/',
@@ -181,6 +194,47 @@ const AuthenticatedParametresIntegrationsRoute =
     path: '/integrations',
     getParentRoute: () => AuthenticatedParametresRoute,
   } as any)
+const AuthenticatedPSlugCalendrierRoute =
+  AuthenticatedPSlugCalendrierRouteImport.update({
+    id: '/calendrier',
+    path: '/calendrier',
+    getParentRoute: () => AuthenticatedPSlugRoute,
+  } as any)
+const AuthenticatedPSlugFichiersRoute =
+  AuthenticatedPSlugFichiersRouteImport.update({
+    id: '/fichiers',
+    path: '/fichiers',
+    getParentRoute: () => AuthenticatedPSlugRoute,
+  } as any)
+const AuthenticatedPSlugJournalRoute =
+  AuthenticatedPSlugJournalRouteImport.update({
+    id: '/journal',
+    path: '/journal',
+    getParentRoute: () => AuthenticatedPSlugRoute,
+  } as any)
+const AuthenticatedPSlugNotesRoute = AuthenticatedPSlugNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AuthenticatedPSlugRoute,
+} as any)
+const AuthenticatedPSlugRechercheRoute =
+  AuthenticatedPSlugRechercheRouteImport.update({
+    id: '/recherche',
+    path: '/recherche',
+    getParentRoute: () => AuthenticatedPSlugRoute,
+  } as any)
+const AuthenticatedPSlugTachesRoute =
+  AuthenticatedPSlugTachesRouteImport.update({
+    id: '/taches',
+    path: '/taches',
+    getParentRoute: () => AuthenticatedPSlugRoute,
+  } as any)
+const AuthenticatedPSlugMModuleKeyRoute =
+  AuthenticatedPSlugMModuleKeyRouteImport.update({
+    id: '/m/$moduleKey',
+    path: '/m/$moduleKey',
+    getParentRoute: () => AuthenticatedPSlugRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -203,12 +257,20 @@ export interface FileRoutesByFullPath {
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/p/$slug': typeof AuthenticatedPSlugRouteWithChildren
   '/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
   '/leo/': typeof AuthenticatedLeoIndexRoute
   '/lion/': typeof AuthenticatedLionIndexRoute
   '/parametres/': typeof AuthenticatedParametresIndexRoute
+  '/p/$slug/calendrier': typeof AuthenticatedPSlugCalendrierRoute
+  '/p/$slug/fichiers': typeof AuthenticatedPSlugFichiersRoute
+  '/p/$slug/journal': typeof AuthenticatedPSlugJournalRoute
+  '/p/$slug/notes': typeof AuthenticatedPSlugNotesRoute
+  '/p/$slug/recherche': typeof AuthenticatedPSlugRechercheRoute
+  '/p/$slug/taches': typeof AuthenticatedPSlugTachesRoute
+  '/p/$slug/m/$moduleKey': typeof AuthenticatedPSlugMModuleKeyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -228,12 +290,20 @@ export interface FileRoutesByTo {
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/p/$slug': typeof AuthenticatedPSlugRouteWithChildren
   '/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
   '/leo': typeof AuthenticatedLeoIndexRoute
   '/lion': typeof AuthenticatedLionIndexRoute
   '/parametres': typeof AuthenticatedParametresIndexRoute
+  '/p/$slug/calendrier': typeof AuthenticatedPSlugCalendrierRoute
+  '/p/$slug/fichiers': typeof AuthenticatedPSlugFichiersRoute
+  '/p/$slug/journal': typeof AuthenticatedPSlugJournalRoute
+  '/p/$slug/notes': typeof AuthenticatedPSlugNotesRoute
+  '/p/$slug/recherche': typeof AuthenticatedPSlugRechercheRoute
+  '/p/$slug/taches': typeof AuthenticatedPSlugTachesRoute
+  '/p/$slug/m/$moduleKey': typeof AuthenticatedPSlugMModuleKeyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -258,12 +328,20 @@ export interface FileRoutesById {
   '/_authenticated/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/_authenticated/lion/notes': typeof AuthenticatedLionNotesRoute
   '/_authenticated/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/_authenticated/p/$slug': typeof AuthenticatedPSlugRouteWithChildren
   '/_authenticated/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/_authenticated/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/_authenticated/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
   '/_authenticated/leo/': typeof AuthenticatedLeoIndexRoute
   '/_authenticated/lion/': typeof AuthenticatedLionIndexRoute
   '/_authenticated/parametres/': typeof AuthenticatedParametresIndexRoute
+  '/_authenticated/p/$slug/calendrier': typeof AuthenticatedPSlugCalendrierRoute
+  '/_authenticated/p/$slug/fichiers': typeof AuthenticatedPSlugFichiersRoute
+  '/_authenticated/p/$slug/journal': typeof AuthenticatedPSlugJournalRoute
+  '/_authenticated/p/$slug/notes': typeof AuthenticatedPSlugNotesRoute
+  '/_authenticated/p/$slug/recherche': typeof AuthenticatedPSlugRechercheRoute
+  '/_authenticated/p/$slug/taches': typeof AuthenticatedPSlugTachesRoute
+  '/_authenticated/p/$slug/m/$moduleKey': typeof AuthenticatedPSlugMModuleKeyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -288,12 +366,20 @@ export interface FileRouteTypes {
     | '/lion/calendrier'
     | '/lion/notes'
     | '/lion/restaurants'
+    | '/p/$slug'
     | '/parametres/import-pinterest'
     | '/parametres/import-restaurants'
     | '/parametres/integrations'
     | '/leo/'
     | '/lion/'
     | '/parametres/'
+    | '/p/$slug/calendrier'
+    | '/p/$slug/fichiers'
+    | '/p/$slug/journal'
+    | '/p/$slug/notes'
+    | '/p/$slug/recherche'
+    | '/p/$slug/taches'
+    | '/p/$slug/m/$moduleKey'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -313,12 +399,20 @@ export interface FileRouteTypes {
     | '/lion/calendrier'
     | '/lion/notes'
     | '/lion/restaurants'
+    | '/p/$slug'
     | '/parametres/import-pinterest'
     | '/parametres/import-restaurants'
     | '/parametres/integrations'
     | '/leo'
     | '/lion'
     | '/parametres'
+    | '/p/$slug/calendrier'
+    | '/p/$slug/fichiers'
+    | '/p/$slug/journal'
+    | '/p/$slug/notes'
+    | '/p/$slug/recherche'
+    | '/p/$slug/taches'
+    | '/p/$slug/m/$moduleKey'
   id:
     | '__root__'
     | '/'
@@ -342,12 +436,20 @@ export interface FileRouteTypes {
     | '/_authenticated/lion/calendrier'
     | '/_authenticated/lion/notes'
     | '/_authenticated/lion/restaurants'
+    | '/_authenticated/p/$slug'
     | '/_authenticated/parametres/import-pinterest'
     | '/_authenticated/parametres/import-restaurants'
     | '/_authenticated/parametres/integrations'
     | '/_authenticated/leo/'
     | '/_authenticated/lion/'
     | '/_authenticated/parametres/'
+    | '/_authenticated/p/$slug/calendrier'
+    | '/_authenticated/p/$slug/fichiers'
+    | '/_authenticated/p/$slug/journal'
+    | '/_authenticated/p/$slug/notes'
+    | '/_authenticated/p/$slug/recherche'
+    | '/_authenticated/p/$slug/taches'
+    | '/_authenticated/p/$slug/m/$moduleKey'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -521,6 +623,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLionRestaurantsRouteImport
       parentRoute: typeof AuthenticatedLionRoute
     }
+    '/_authenticated/p/$slug': {
+      id: '/_authenticated/p/$slug'
+      path: '/p/$slug'
+      fullPath: '/p/$slug'
+      preLoaderRoute: typeof AuthenticatedPSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/parametres/': {
       id: '/_authenticated/parametres/'
       path: '/'
@@ -548,6 +657,55 @@ declare module '@tanstack/react-router' {
       fullPath: '/parametres/integrations'
       preLoaderRoute: typeof AuthenticatedParametresIntegrationsRouteImport
       parentRoute: typeof AuthenticatedParametresRoute
+    }
+    '/_authenticated/p/$slug/calendrier': {
+      id: '/_authenticated/p/$slug/calendrier'
+      path: '/calendrier'
+      fullPath: '/p/$slug/calendrier'
+      preLoaderRoute: typeof AuthenticatedPSlugCalendrierRouteImport
+      parentRoute: typeof AuthenticatedPSlugRoute
+    }
+    '/_authenticated/p/$slug/fichiers': {
+      id: '/_authenticated/p/$slug/fichiers'
+      path: '/fichiers'
+      fullPath: '/p/$slug/fichiers'
+      preLoaderRoute: typeof AuthenticatedPSlugFichiersRouteImport
+      parentRoute: typeof AuthenticatedPSlugRoute
+    }
+    '/_authenticated/p/$slug/journal': {
+      id: '/_authenticated/p/$slug/journal'
+      path: '/journal'
+      fullPath: '/p/$slug/journal'
+      preLoaderRoute: typeof AuthenticatedPSlugJournalRouteImport
+      parentRoute: typeof AuthenticatedPSlugRoute
+    }
+    '/_authenticated/p/$slug/notes': {
+      id: '/_authenticated/p/$slug/notes'
+      path: '/notes'
+      fullPath: '/p/$slug/notes'
+      preLoaderRoute: typeof AuthenticatedPSlugNotesRouteImport
+      parentRoute: typeof AuthenticatedPSlugRoute
+    }
+    '/_authenticated/p/$slug/recherche': {
+      id: '/_authenticated/p/$slug/recherche'
+      path: '/recherche'
+      fullPath: '/p/$slug/recherche'
+      preLoaderRoute: typeof AuthenticatedPSlugRechercheRouteImport
+      parentRoute: typeof AuthenticatedPSlugRoute
+    }
+    '/_authenticated/p/$slug/taches': {
+      id: '/_authenticated/p/$slug/taches'
+      path: '/taches'
+      fullPath: '/p/$slug/taches'
+      preLoaderRoute: typeof AuthenticatedPSlugTachesRouteImport
+      parentRoute: typeof AuthenticatedPSlugRoute
+    }
+    '/_authenticated/p/$slug/m/$moduleKey': {
+      id: '/_authenticated/p/$slug/m/$moduleKey'
+      path: '/m/$moduleKey'
+      fullPath: '/p/$slug/m/$moduleKey'
+      preLoaderRoute: typeof AuthenticatedPSlugMModuleKeyRouteImport
+      parentRoute: typeof AuthenticatedPSlugRoute
     }
   }
 }
@@ -617,6 +775,29 @@ const AuthenticatedParametresRouteWithChildren =
     AuthenticatedParametresRouteChildren,
   )
 
+interface AuthenticatedPSlugRouteChildren {
+  AuthenticatedPSlugCalendrierRoute: typeof AuthenticatedPSlugCalendrierRoute
+  AuthenticatedPSlugFichiersRoute: typeof AuthenticatedPSlugFichiersRoute
+  AuthenticatedPSlugJournalRoute: typeof AuthenticatedPSlugJournalRoute
+  AuthenticatedPSlugNotesRoute: typeof AuthenticatedPSlugNotesRoute
+  AuthenticatedPSlugRechercheRoute: typeof AuthenticatedPSlugRechercheRoute
+  AuthenticatedPSlugTachesRoute: typeof AuthenticatedPSlugTachesRoute
+  AuthenticatedPSlugMModuleKeyRoute: typeof AuthenticatedPSlugMModuleKeyRoute
+}
+
+const AuthenticatedPSlugRouteChildren: AuthenticatedPSlugRouteChildren = {
+  AuthenticatedPSlugCalendrierRoute: AuthenticatedPSlugCalendrierRoute,
+  AuthenticatedPSlugFichiersRoute: AuthenticatedPSlugFichiersRoute,
+  AuthenticatedPSlugJournalRoute: AuthenticatedPSlugJournalRoute,
+  AuthenticatedPSlugNotesRoute: AuthenticatedPSlugNotesRoute,
+  AuthenticatedPSlugRechercheRoute: AuthenticatedPSlugRechercheRoute,
+  AuthenticatedPSlugTachesRoute: AuthenticatedPSlugTachesRoute,
+  AuthenticatedPSlugMModuleKeyRoute: AuthenticatedPSlugMModuleKeyRoute,
+}
+
+const AuthenticatedPSlugRouteWithChildren =
+  AuthenticatedPSlugRoute._addFileChildren(AuthenticatedPSlugRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedCalendrierRoute: typeof AuthenticatedCalendrierRoute
   AuthenticatedHubRoute: typeof AuthenticatedHubRoute
@@ -624,6 +805,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLionRoute: typeof AuthenticatedLionRouteWithChildren
   AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
   AuthenticatedParametresRoute: typeof AuthenticatedParametresRouteWithChildren
+  AuthenticatedPSlugRoute: typeof AuthenticatedPSlugRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -633,6 +815,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLionRoute: AuthenticatedLionRouteWithChildren,
   AuthenticatedNotesRoute: AuthenticatedNotesRoute,
   AuthenticatedParametresRoute: AuthenticatedParametresRouteWithChildren,
+  AuthenticatedPSlugRoute: AuthenticatedPSlugRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
