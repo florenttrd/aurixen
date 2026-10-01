@@ -43,6 +43,7 @@ import { Route as AuthenticatedPSlugFichiersRouteImport } from './routes/_authen
 import { Route as AuthenticatedPSlugJournalRouteImport } from './routes/_authenticated/p.$slug.journal'
 import { Route as AuthenticatedPSlugNotesRouteImport } from './routes/_authenticated/p.$slug.notes'
 import { Route as AuthenticatedPSlugRechercheRouteImport } from './routes/_authenticated/p.$slug.recherche'
+import { Route as AuthenticatedPSlugReglagesRouteImport } from './routes/_authenticated/p.$slug.reglages'
 import { Route as AuthenticatedPSlugTachesRouteImport } from './routes/_authenticated/p.$slug.taches'
 import { Route as AuthenticatedPSlugMModuleKeyRouteImport } from './routes/_authenticated/p.$slug.m.$moduleKey'
 
@@ -229,6 +230,12 @@ const AuthenticatedPSlugRechercheRoute =
     path: '/recherche',
     getParentRoute: () => AuthenticatedPSlugRoute,
   } as any)
+const AuthenticatedPSlugReglagesRoute =
+  AuthenticatedPSlugReglagesRouteImport.update({
+    id: '/reglages',
+    path: '/reglages',
+    getParentRoute: () => AuthenticatedPSlugRoute,
+  } as any)
 const AuthenticatedPSlugTachesRoute =
   AuthenticatedPSlugTachesRouteImport.update({
     id: '/taches',
@@ -275,6 +282,7 @@ export interface FileRoutesByFullPath {
   '/p/$slug/journal': typeof AuthenticatedPSlugJournalRoute
   '/p/$slug/notes': typeof AuthenticatedPSlugNotesRoute
   '/p/$slug/recherche': typeof AuthenticatedPSlugRechercheRoute
+  '/p/$slug/reglages': typeof AuthenticatedPSlugReglagesRoute
   '/p/$slug/taches': typeof AuthenticatedPSlugTachesRoute
   '/p/$slug/': typeof AuthenticatedPSlugIndexRoute
   '/p/$slug/m/$moduleKey': typeof AuthenticatedPSlugMModuleKeyRoute
@@ -308,6 +316,7 @@ export interface FileRoutesByTo {
   '/p/$slug/journal': typeof AuthenticatedPSlugJournalRoute
   '/p/$slug/notes': typeof AuthenticatedPSlugNotesRoute
   '/p/$slug/recherche': typeof AuthenticatedPSlugRechercheRoute
+  '/p/$slug/reglages': typeof AuthenticatedPSlugReglagesRoute
   '/p/$slug/taches': typeof AuthenticatedPSlugTachesRoute
   '/p/$slug': typeof AuthenticatedPSlugIndexRoute
   '/p/$slug/m/$moduleKey': typeof AuthenticatedPSlugMModuleKeyRoute
@@ -347,6 +356,7 @@ export interface FileRoutesById {
   '/_authenticated/p/$slug/journal': typeof AuthenticatedPSlugJournalRoute
   '/_authenticated/p/$slug/notes': typeof AuthenticatedPSlugNotesRoute
   '/_authenticated/p/$slug/recherche': typeof AuthenticatedPSlugRechercheRoute
+  '/_authenticated/p/$slug/reglages': typeof AuthenticatedPSlugReglagesRoute
   '/_authenticated/p/$slug/taches': typeof AuthenticatedPSlugTachesRoute
   '/_authenticated/p/$slug/': typeof AuthenticatedPSlugIndexRoute
   '/_authenticated/p/$slug/m/$moduleKey': typeof AuthenticatedPSlugMModuleKeyRoute
@@ -386,6 +396,7 @@ export interface FileRouteTypes {
     | '/p/$slug/journal'
     | '/p/$slug/notes'
     | '/p/$slug/recherche'
+    | '/p/$slug/reglages'
     | '/p/$slug/taches'
     | '/p/$slug/'
     | '/p/$slug/m/$moduleKey'
@@ -419,6 +430,7 @@ export interface FileRouteTypes {
     | '/p/$slug/journal'
     | '/p/$slug/notes'
     | '/p/$slug/recherche'
+    | '/p/$slug/reglages'
     | '/p/$slug/taches'
     | '/p/$slug'
     | '/p/$slug/m/$moduleKey'
@@ -457,6 +469,7 @@ export interface FileRouteTypes {
     | '/_authenticated/p/$slug/journal'
     | '/_authenticated/p/$slug/notes'
     | '/_authenticated/p/$slug/recherche'
+    | '/_authenticated/p/$slug/reglages'
     | '/_authenticated/p/$slug/taches'
     | '/_authenticated/p/$slug/'
     | '/_authenticated/p/$slug/m/$moduleKey'
@@ -710,6 +723,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPSlugRechercheRouteImport
       parentRoute: typeof AuthenticatedPSlugRoute
     }
+    '/_authenticated/p/$slug/reglages': {
+      id: '/_authenticated/p/$slug/reglages'
+      path: '/reglages'
+      fullPath: '/p/$slug/reglages'
+      preLoaderRoute: typeof AuthenticatedPSlugReglagesRouteImport
+      parentRoute: typeof AuthenticatedPSlugRoute
+    }
     '/_authenticated/p/$slug/taches': {
       id: '/_authenticated/p/$slug/taches'
       path: '/taches'
@@ -798,6 +818,7 @@ interface AuthenticatedPSlugRouteChildren {
   AuthenticatedPSlugJournalRoute: typeof AuthenticatedPSlugJournalRoute
   AuthenticatedPSlugNotesRoute: typeof AuthenticatedPSlugNotesRoute
   AuthenticatedPSlugRechercheRoute: typeof AuthenticatedPSlugRechercheRoute
+  AuthenticatedPSlugReglagesRoute: typeof AuthenticatedPSlugReglagesRoute
   AuthenticatedPSlugTachesRoute: typeof AuthenticatedPSlugTachesRoute
   AuthenticatedPSlugIndexRoute: typeof AuthenticatedPSlugIndexRoute
   AuthenticatedPSlugMModuleKeyRoute: typeof AuthenticatedPSlugMModuleKeyRoute
@@ -809,6 +830,7 @@ const AuthenticatedPSlugRouteChildren: AuthenticatedPSlugRouteChildren = {
   AuthenticatedPSlugJournalRoute: AuthenticatedPSlugJournalRoute,
   AuthenticatedPSlugNotesRoute: AuthenticatedPSlugNotesRoute,
   AuthenticatedPSlugRechercheRoute: AuthenticatedPSlugRechercheRoute,
+  AuthenticatedPSlugReglagesRoute: AuthenticatedPSlugReglagesRoute,
   AuthenticatedPSlugTachesRoute: AuthenticatedPSlugTachesRoute,
   AuthenticatedPSlugIndexRoute: AuthenticatedPSlugIndexRoute,
   AuthenticatedPSlugMModuleKeyRoute: AuthenticatedPSlugMModuleKeyRoute,
