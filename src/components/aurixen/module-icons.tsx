@@ -34,3 +34,7 @@ const ICONS: Record<string, ReactNode> = {
 export function moduleIcon(key?: string | null): ReactNode {
   return ICONS[key ?? "box"] ?? ICONS["box"];
 }
+
+export function ModuleIcon({ name, className }: { name: string | null | undefined; className?: string }) {
+  return <span className={`inline-flex shrink-0 items-center justify-center [&>svg]:size-full ${className ?? ""}`}>{moduleIcon(name ?? "box")}</span>;
+}
