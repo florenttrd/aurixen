@@ -91,7 +91,7 @@ function HomeBlockView({
   );
 }
 
-function Rows({ items, count, empty }: { items: { id: string; title: string; hint?: string }[]; count: number; empty: string }) {
+function Rows({ items, count, empty }: { items: { id: string; title: string; hint?: string | undefined }[]; count: number; empty: string }) {
   return (
     <div>
       <p className="text-2xl font-semibold tabular-nums">{count}</p>

@@ -43,7 +43,7 @@ export function ProjectWizard({ open, onOpenChange }: { open: boolean; onOpenCha
   async function finish() {
     const slug = await create.mutateAsync({
       name: name.trim(),
-      subtitle: subtitle.trim() || undefined,
+      subtitle: subtitle.trim(),
       modules: modules.includes("dashboard") ? modules : ["dashboard", ...modules],
       ...design,
     });
