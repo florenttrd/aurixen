@@ -3,17 +3,18 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, ArrowUpRight, CalendarDays, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
+import { ProjectWizard } from "@/components/aurixen/ProjectWizard";
 import { Shell, SectionTitle, StatCard } from "@/components/aurixen/Shell";
 import { HUB_NAV } from "@/components/aurixen/navs";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { useDeleteProject } from "@/hooks/useProjectSystem";
 import { supabase } from "@/integrations/supabase/client";
 import { useEvents, usePins, useRestaurants, useSales } from "@/hooks/useAurixen";
 import { PROJECTS, formatDate, formatMoney, toISODate } from "@/lib/aurixen";
@@ -40,8 +41,9 @@ function Hub() {
   const { data: sales = [] } = useSales();
   const { data: restaurants = [] } = useRestaurants();
   const { data: extra = [], refetch } = useExtraProjects();
-  const [newProject, setNewProject] = useState<string | null>(null);
-  const [toDelete, setToDelete] = useState<{ id: string; name: string } | null>(null);
+  const deleteProject = useDeleteProject();
+  const [wizard, setWizard] = useState(false);
+  const [toDelete, setToDelete] = useState<{ id: string; name: string; slug: string } | null>(null);
   const [step, setStep] = useState<1 | 2>(1);
   const [confirmName, setConfirmName] = useState("");
   const [password, setPassword] = useState("");
@@ -69,9 +71,9 @@ function Hub() {
         toast.error("Mot de passe incorrect.");
         return;
       }
-      const { error } = await supabase.from("projects").delete().eq("id", toDelete.id);
-      if (error) {
-        toast.error(error.message);
+      try {
+        await deleteProject.mutateAsync({ id: toDelete.id, slug: toDelete.slug });
+      } catch {
         return;
       }
       toast.success(`Projet « ${toDelete.name} » supprimé définitivement`);
@@ -85,27 +87,6 @@ function Hub() {
   const todayIso = toISODate(new Date());
   const upcoming = events.filter((e) => e.event_date >= todayIso).slice(0, 4);
   const revenue = sales.reduce((sum, s) => sum + Number(s.amount), 0);
-
-  async function createProject() {
-    if (!newProject?.trim()) return;
-    const { data: userData } = await supabase.auth.getUser();
-    if (!userData.user) return;
-    const slug = newProject
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
-    const { error } = await supabase
-      .from("projects")
-      .insert({ user_id: userData.user.id, slug, name: newProject.trim() });
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Projet ajouté");
-    setNewProject(null);
-    refetch();
-  }
 
   return (
     <Shell wordmark="Aurixen" subtitle="Centre de pilotage" nav={HUB_NAV}>
@@ -161,19 +142,30 @@ function Hub() {
             </Link>
           </li>
         ))}
-        {extra.map((p) => (
-          <li key={p.id} className="surface-panel flex items-center gap-3 p-4">
-            <span className="min-w-0 flex-1">
-              <span className="block text-lg font-semibold">{p.name}</span>
-              <span className="block truncate text-xs text-muted-foreground">
-                Espace en préparation · {p.tagline ?? "Nouveau projet"}
+        {extra
+          .filter((p) => !PROJECTS.some((b) => b.slug === p.slug))
+          .map((p) => (
+          <li key={p.id} className="surface-panel relative flex items-center gap-3 overflow-hidden p-4">
+            <span className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: p.accent }} />
+            <Link to="/p/$slug" params={{ slug: p.slug }} className="flex min-w-0 flex-1 items-center gap-4 active:opacity-90">
+              <span
+                className="flex size-12 shrink-0 items-center justify-center rounded-xl text-base font-bold"
+                style={{ backgroundColor: `${p.accent}22`, color: p.accent }}
+              >
+                {p.initials ?? p.name.slice(0, 2).toUpperCase()}
               </span>
-            </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-lg font-semibold">{p.name}</span>
+                <span className="block truncate text-xs text-muted-foreground">
+                  {p.subtitle ?? p.tagline ?? "Espace personnalisé"}
+                </span>
+              </span>
+            </Link>
             <button
               type="button"
               aria-label={`Supprimer le projet ${p.name}`}
               onClick={() => {
-                setToDelete({ id: p.id, name: p.name });
+                setToDelete({ id: p.id, name: p.name, slug: p.slug });
                 setStep(1);
                 setConfirmName("");
                 setPassword("");
@@ -187,10 +179,10 @@ function Hub() {
         <li>
           <button
             type="button"
-            onClick={() => setNewProject("")}
+            onClick={() => setWizard(true)}
             className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-border text-sm text-muted-foreground active:bg-muted"
           >
-            <Plus className="size-4" /> Ajouter un projet
+            <Plus className="size-4" /> Créer un projet
           </button>
         </li>
       </ul>
@@ -229,24 +221,7 @@ function Hub() {
         )}
       </section>
 
-      <Dialog open={newProject !== null} onOpenChange={(v) => !v && setNewProject(null)}>
-        <DialogContent>
-          <DialogHeader className="text-left">
-            <DialogTitle>Nouveau projet</DialogTitle>
-          </DialogHeader>
-          <Input
-            className="h-12"
-            placeholder="Nom du projet"
-            value={newProject ?? ""}
-            onChange={(e) => setNewProject(e.target.value)}
-          />
-          <DialogFooter>
-            <Button className="h-12 w-full rounded-xl" onClick={createProject}>
-              Ajouter
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ProjectWizard open={wizard} onOpenChange={setWizard} />
 
       <Dialog open={toDelete !== null} onOpenChange={(v) => !v && closeDelete()}>
         <DialogContent className="top-4 translate-y-0 sm:top-1/2 sm:-translate-y-1/2">
