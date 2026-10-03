@@ -89,6 +89,14 @@ export const UNIVERSAL_MODULES: ModuleDef[] = [
     description: "Recherche dans tout le projet",
     path: "recherche",
   },
+  {
+    key: "canvas",
+    label: "Canvas",
+    kind: "universel",
+    icon: "canvas",
+    description: "Espace de réflexion visuelle infini",
+    path: "canvas",
+  },
 ];
 
 const STATUS_FIELD: ModuleField = { key: "statut", label: "Statut", type: "statut" };
