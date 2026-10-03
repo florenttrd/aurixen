@@ -9,6 +9,7 @@ import {
   LayoutGrid,
   NotebookPen,
   Search,
+  Shapes,
   Sparkles,
   Target,
   Users,
@@ -29,6 +30,7 @@ const ICONS: Record<string, ReactNode> = {
   euro: <Euro className="size-5" />,
   sparkles: <Sparkles className="size-5" />,
   box: <Box className="size-5" />,
+  canvas: <Shapes className="size-5" />,
 };
 
 export function moduleIcon(key?: string | null): ReactNode {

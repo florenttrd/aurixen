@@ -6,6 +6,7 @@ import {
   NotebookPen,
   Receipt,
   Settings,
+  Shapes,
   Store,
 } from "lucide-react";
 
@@ -24,6 +25,7 @@ export const LEO_NAV: NavItem[] = [
   { to: "/leo/ventes", label: "Ventes", icon: <Receipt className="size-5" /> },
   { to: "/leo/calendrier", label: "Agenda", icon: <CalendarDays className="size-5" /> },
   { to: "/leo/notes", label: "Écriture", icon: <NotebookPen className="size-5" /> },
+  { to: "/leo/canvas", label: "Canvas", icon: <Shapes className="size-5" /> },
 ];
 
 export const LION_NAV: NavItem[] = [
@@ -31,4 +33,5 @@ export const LION_NAV: NavItem[] = [
   { to: "/lion/restaurants", label: "Restaurants", icon: <Store className="size-5" /> },
   { to: "/lion/calendrier", label: "Calendrier", icon: <CalendarDays className="size-5" /> },
   { to: "/lion/notes", label: "Écriture", icon: <NotebookPen className="size-5" /> },
+  { to: "/lion/canvas", label: "Canvas", icon: <Shapes className="size-5" /> },
 ];
