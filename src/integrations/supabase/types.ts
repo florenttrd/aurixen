@@ -55,6 +55,48 @@ export type Database = {
           },
         ]
       }
+      canvases: {
+        Row: {
+          app_state: Json
+          bookmarks: Json
+          created_at: string
+          elements: Json
+          file_ids: string[]
+          id: string
+          name: string
+          position: number
+          project_slug: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          app_state?: Json
+          bookmarks?: Json
+          created_at?: string
+          elements?: Json
+          file_ids?: string[]
+          id?: string
+          name?: string
+          position?: number
+          project_slug: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          app_state?: Json
+          bookmarks?: Json
+          created_at?: string
+          elements?: Json
+          file_ids?: string[]
+          id?: string
+          name?: string
+          position?: number
+          project_slug?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           created_at: string
