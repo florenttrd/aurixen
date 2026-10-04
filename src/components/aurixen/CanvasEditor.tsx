@@ -93,7 +93,7 @@ export default function CanvasEditor({ canvasId }: { canvasId: string }) {
     return {
       elements: canvas.elements as never[],
       appState: {
-        theme: (st["theme"] as string) ?? "dark",
+        theme: (st["theme"] as string) ?? "light",
         viewBackgroundColor: (st["viewBackgroundColor"] as string) ?? undefined,
         scrollX: (st["scrollX"] as number) ?? 0,
         scrollY: (st["scrollY"] as number) ?? 0,
