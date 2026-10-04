@@ -20,6 +20,7 @@ import { Route as AuthenticatedLeoRouteImport } from './routes/_authenticated/le
 import { Route as AuthenticatedLionRouteImport } from './routes/_authenticated/lion'
 import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
 import { Route as AuthenticatedParametresRouteImport } from './routes/_authenticated/parametres'
+import { Route as AuthenticatedCanvasIndexRouteImport } from './routes/_authenticated/canvas.index'
 import { Route as AuthenticatedCanvasCanvasIdRouteImport } from './routes/_authenticated/canvas.$canvasId'
 import { Route as AuthenticatedLeoIndexRouteImport } from './routes/_authenticated/leo.index'
 import { Route as AuthenticatedLeoAnalyticsRouteImport } from './routes/_authenticated/leo.analytics'
@@ -105,6 +106,12 @@ const AuthenticatedParametresRoute = AuthenticatedParametresRouteImport.update({
   path: '/parametres',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCanvasIndexRoute =
+  AuthenticatedCanvasIndexRouteImport.update({
+    id: '/canvas/',
+    path: '/canvas/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCanvasCanvasIdRoute =
   AuthenticatedCanvasCanvasIdRouteImport.update({
     id: '/canvas/$canvasId',
@@ -303,6 +310,7 @@ export interface FileRoutesByFullPath {
   '/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
+  '/canvas/': typeof AuthenticatedCanvasIndexRoute
   '/leo/': typeof AuthenticatedLeoIndexRoute
   '/lion/': typeof AuthenticatedLionIndexRoute
   '/parametres/': typeof AuthenticatedParametresIndexRoute
@@ -341,6 +349,7 @@ export interface FileRoutesByTo {
   '/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
+  '/canvas': typeof AuthenticatedCanvasIndexRoute
   '/leo': typeof AuthenticatedLeoIndexRoute
   '/lion': typeof AuthenticatedLionIndexRoute
   '/parametres': typeof AuthenticatedParametresIndexRoute
@@ -385,6 +394,7 @@ export interface FileRoutesById {
   '/_authenticated/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/_authenticated/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/_authenticated/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
+  '/_authenticated/canvas/': typeof AuthenticatedCanvasIndexRoute
   '/_authenticated/leo/': typeof AuthenticatedLeoIndexRoute
   '/_authenticated/lion/': typeof AuthenticatedLionIndexRoute
   '/_authenticated/parametres/': typeof AuthenticatedParametresIndexRoute
@@ -429,6 +439,7 @@ export interface FileRouteTypes {
     | '/parametres/import-pinterest'
     | '/parametres/import-restaurants'
     | '/parametres/integrations'
+    | '/canvas/'
     | '/leo/'
     | '/lion/'
     | '/parametres/'
@@ -467,6 +478,7 @@ export interface FileRouteTypes {
     | '/parametres/import-pinterest'
     | '/parametres/import-restaurants'
     | '/parametres/integrations'
+    | '/canvas'
     | '/leo'
     | '/lion'
     | '/parametres'
@@ -510,6 +522,7 @@ export interface FileRouteTypes {
     | '/_authenticated/parametres/import-pinterest'
     | '/_authenticated/parametres/import-restaurants'
     | '/_authenticated/parametres/integrations'
+    | '/_authenticated/canvas/'
     | '/_authenticated/leo/'
     | '/_authenticated/lion/'
     | '/_authenticated/parametres/'
@@ -610,6 +623,13 @@ declare module '@tanstack/react-router' {
       path: '/parametres'
       fullPath: '/parametres'
       preLoaderRoute: typeof AuthenticatedParametresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/canvas/': {
+      id: '/_authenticated/canvas/'
+      path: '/canvas'
+      fullPath: '/canvas/'
+      preLoaderRoute: typeof AuthenticatedCanvasIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/canvas/$canvasId': {
@@ -932,6 +952,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedParametresRoute: typeof AuthenticatedParametresRouteWithChildren
   AuthenticatedCanvasCanvasIdRoute: typeof AuthenticatedCanvasCanvasIdRoute
   AuthenticatedPSlugRoute: typeof AuthenticatedPSlugRouteWithChildren
+  AuthenticatedCanvasIndexRoute: typeof AuthenticatedCanvasIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -943,6 +964,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedParametresRoute: AuthenticatedParametresRouteWithChildren,
   AuthenticatedCanvasCanvasIdRoute: AuthenticatedCanvasCanvasIdRoute,
   AuthenticatedPSlugRoute: AuthenticatedPSlugRouteWithChildren,
+  AuthenticatedCanvasIndexRoute: AuthenticatedCanvasIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
