@@ -27,7 +27,7 @@ const excalidrawSsrStub = {
       return [
         "const Noop = () => null;",
         "export const Excalidraw = Noop; export const MainMenu = Object.assign(Noop, { DefaultItems: new Proxy({}, { get: () => Noop }), Item: Noop, Separator: Noop });",
-        "export const convertToExcalidrawElements = () => []; export const CaptureUpdateAction = { IMMEDIATELY: "IMMEDIATELY", NEVER: "NEVER", EVENTUALLY: "EVENTUALLY" }; export const exportToBlob = async () => null;",
+        "export const convertToExcalidrawElements = () => []; export const CaptureUpdateAction = { IMMEDIATELY: 'IMMEDIATELY', NEVER: 'NEVER', EVENTUALLY: 'EVENTUALLY' }; export const exportToBlob = async () => null;",
         "export default {};",
       ].join("\n");
     }
