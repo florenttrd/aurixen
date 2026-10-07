@@ -1,61 +1,70 @@
-# Projets sur mesure dans AURIXEN
+# Système de connecteurs AURIXEN
 
-Objectif : créer autant de projets que vous voulez, chacun avec ses propres espaces (calendrier, écriture, fichiers, tableau de bord), son style graphique complet et sa présentation — comme Léo Valen et Danse du Lion, mais choisis par vous.
+Les connecteurs deviennent une couche à part, indépendante des modules. Chaque projet choisit ses connecteurs et le compte utilisé, puis les gère depuis ses réglages. Rien d'existant n'est supprimé : Gumroad, l'import Pinterest, les fichiers Aurixen et le Canvas continuent de marcher.
 
-## 1. Création d'un projet en 3 écrans
+## Ce que vous verrez
 
-Depuis le hub, « Ajouter un projet » ouvre un assistant :
+1. **Hub des connecteurs** (Réglages → Connecteurs)
+   - Les connecteurs sont rangés par catégorie : Données & Analytics, Fichiers & stockage, Organisation, Communication, Recherche, IA.
+   - Pour chaque connecteur, vous verrez :
+     - son statut : non connecté, connecté, synchronisation, synchronisé, erreur ou reconnexion requise ;
+     - les comptes connectés ;
+     - les projets qui l'utilisent ;
+     - la dernière synchronisation, le nombre d'éléments et les erreurs ;
+     - ses permissions.
+   - Les services pas encore développés (Google Analytics, YouTube, Instagram, Shopify, Gmail, OpenAI, etc.) sont affichés en « Bientôt disponible ». Aucune fausse connexion n'est créée.
+2. **Nouvelle étape « Connecteurs » à la création d'un projet**, après Design.
+   - Vous pouvez sélectionner un connecteur sans le connecter tout de suite, avec les choix « Connecter maintenant » ou « Plus tard ».
+3. **Projet → Réglages → Connecteurs** (nouvel onglet)
+   - Deux sections : « Connectés » et « Disponibles ».
+   - Actions possibles : Ajouter, Configurer (choisir le compte), Synchroniser maintenant, Retirer du projet.
+   - Léo Valen et Danse du Lion reçoivent aussi cette gestion.
+4. **Déconnexion protégée**
+   - « Déconnecter » ne supprime aucune donnée.
+   - « Supprimer les données synchronisées » est une action séparée, à confirmer en tapant SUPPRIMER.
 
-1. **Identité** — nom, sous-titre, initiales du badge.
-2. **Espaces** — cases à cocher : Tableau de bord, Calendrier, Écriture, Fichiers. Vous choisissez, et vous pouvez changer d'avis à tout moment dans les réglages du projet.
-3. **Style** — couleur d'accent, seconde couleur, fond (noir profond, encre, clair), police des titres, police du texte, arrondi des cartes, intensité des effets (halo, grain, dégradés).
+## Les trois premiers connecteurs réels
 
-Le projet est créé immédiatement et apparaît dans le hub avec sa couleur et son badge.
+- **Gumroad** : la connexion actuelle est reprise telle quelle. Les ventes sont rattachées au compte et au projet, sans doublons.
+- **Pinterest**, avec deux modes :
+  - « Import de rapport » : fonctionne dès maintenant, c'est le système actuel.
+  - « Connexion officielle » : la structure est prête, mais elle reste « À configurer » tant que vous n'avez pas votre accès développeur Pinterest. Aucune clé ne sera inventée.
+- **Google Drive** : connexion de votre compte Google.
+  - Vous choisissez les dossiers autorisés ; rien n'est importé automatiquement.
+  - Vous ajoutez au projet des « références » vers des fichiers (nom, type, lien vers l'original) sans les copier.
+  - Ces références apparaissent dans Fichiers, à côté des vrais fichiers Aurixen, avec un badge « Drive ».
 
-## 2. Pages complètes par projet
+## Préparé pour la suite
 
-Chaque projet créé obtient ses propres pages, comme les deux projets existants :
-
-```text
-/p/<projet>              accueil du projet
-/p/<projet>/calendrier   si l'espace est activé
-/p/<projet>/notes        si l'espace est activé
-/p/<projet>/fichiers     si l'espace est activé
-```
-
-La barre de navigation du bas n'affiche que les espaces activés. Les données restent séparées par projet (vos notes, événements et fichiers de Léo Valen ne se mélangent pas avec un nouveau projet).
-
-## 3. Personnalisation de la présentation
-
-Dans « Réglages du projet », vous pouvez régler :
-
-- l'ordre des espaces dans la barre du bas ;
-- la disposition de l'accueil : grandes cartes, liste compacte, ou résumé chiffré en haut ;
-- les blocs visibles sur l'accueil (prochains événements, dernières notes, derniers fichiers, notes épinglées) et leur ordre ;
-- le style graphique complet (couleurs, polices, fond, arrondis, effets), avec aperçu en direct.
-
-Tout est modifiable après coup, sans perdre les données.
-
-## 4. Projets existants
-
-Léo Valen et Danse du Lion gardent leurs pages spécifiques actuelles (pins, ventes, restaurants) et leurs URL. Rien n'est déplacé ni cassé.
-
-## 5. Suppression
-
-Le mécanisme de sécurité déjà en place (recopier le nom exact puis mot de passe) s'applique aussi à ces projets, et supprime leurs notes, événements et fichiers.
-
----
+- Les données externes deviennent des « objets connectés » liés à leur source : un Pin, une vente, un fichier Drive.
+- Ils apparaissent dans la recherche globale, toujours limités au projet concerné.
+- Leur structure permet de les ajouter plus tard au Canvas.
+- Plusieurs comptes peuvent exister pour un même service ; chaque projet choisit le sien.
+- Un même compte peut servir à plusieurs projets, sans que les données de l'un deviennent visibles dans l'autre.
 
 ## Détails techniques
 
-**Base de données** (une migration) : extension de `public.projects` avec `subtitle`, `initials`, `accent_secondary`, `surface` (dark/ink/light), `font_display`, `font_body`, `radius`, `effects`, `modules jsonb` (liste d'espaces activés), `layout jsonb` (disposition + ordre + blocs), `sort_order`. Valeurs par défaut compatibles avec les lignes existantes ; RLS/GRANT déjà en place sur la table, policies inchangées.
+- **Catalogue** dans `src/lib/connectors.ts` : chaque connecteur déclare id, nom, catégorie, icône, description, fournisseur, type d'authentification, capacités, permissions, méthodes de synchro, entités prises en charge et disponibilité. Aucun cas particulier codé en dur dans l'interface.
+- **Base de données** (migration additive, sans rien supprimer) :
+  - `connector_accounts` : comptes externes par utilisateur (service, libellé, statut, dernière synchro, nombre d'éléments, erreur, configuration non secrète). Pas de jetons dans cette table.
+  - `project_connectors` : lien projet ↔ connecteur ↔ compte (activé, configuration, permissions accordées, dossiers autorisés).
+  - `connected_objects` : objets externes (source, compte, projet, identifiant externe, titre, URL, image, données JSON, date de dernière synchro). Une contrainte d'unicité empêche les doublons.
+  - Ajout aux tables `sales` et `pins` de colonnes facultatives `account_id`, `project_slug` et `last_synced_at`.
+  - Chaque table a ses droits d'accès et ses règles « own ».
+- **Secrets** : le jeton Gumroad reste uniquement côté serveur. Pour Pinterest officiel, `PINTEREST_CLIENT_ID` et `PINTEREST_CLIENT_SECRET` ne seront demandés que lorsque vous aurez l'accès. Les identifiants Google Drive passent par la connexion Google gérée par Lovable (votre propre compte). Aucun jeton ne passe par le navigateur.
+- **Fonctions serveur** dans `src/lib/connectors.functions.ts`, authentifiées : statut, lier ou retirer un connecteur d'un projet, synchroniser, déconnecter, purger. Pour Drive : lister les dossiers et fichiers, ajouter une référence.
+- **Interface** :
+  - `ConnectorsHub` (route `/parametres/connecteurs`) ;
+  - `ProjectConnectors` (onglet dans `p.$slug.reglages`, plus une page pour Léo et Lion) ;
+  - étape 4 du `ProjectWizard` ;
+  - références Drive affichées dans `FileManager` ;
+  - `GlobalSearch` étendue à `connected_objects`.
+- L'ancienne page Intégrations reste accessible et renvoie vers le nouveau hub.
 
-**Thème dynamique** : un composant `ProjectTheme` applique les tokens CSS (`--primary`, `--background`, `--radius`, `--font-display`…) en variables inline sur le conteneur du projet. Aucune couleur en dur dans les composants ; les tokens sémantiques de `src/styles.css` restent la seule source.
+## Ordre de réalisation
 
-**Routes** : nouveau groupe `src/routes/_authenticated/p.$slug.*` — `route.tsx` (layout : charge le projet, applique le thème, construit la nav depuis `modules`), `index.tsx`, `calendrier.tsx`, `notes.tsx`, `fichiers.tsx`, chaque enfant renvoyant vers un espace non activé s'il est désactivé. Réutilisation directe de `CalendarBoard`, `NotesSpace` et `FileManager`, qui acceptent déjà `projectSlug`.
-
-**Hub** : `src/routes/_authenticated/hub.tsx` — les projets personnalisés deviennent des liens vers `/p/$slug` avec leur couleur, et le bouton « Ajouter un projet » ouvre l'assistant (`ProjectWizard`). Nouvelle route `/p/$slug/reglages` pour l'édition du style et des espaces.
-
-**Hooks** : ajout dans `src/hooks/useAurixen.ts` de `useProjects`, `useCreateProject`, `useUpdateProject`, `useDeleteProjectData` (nettoyage notes/events/files par `project_slug`).
-
-Non inclus à cette étape : bases de données personnalisées par projet (type « restaurants ») et intégrations API par projet — à traiter séparément si besoin.
+1. Catalogue, tables et hub.
+2. Étape de création de projet et onglet Réglages → Connecteurs.
+3. Gumroad et Pinterest (import) rattachés au nouveau système.
+4. Google Drive (connexion, dossiers autorisés, références).
+5. Recherche globale, puis test complet sur mobile.
