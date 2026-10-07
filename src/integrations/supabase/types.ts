@@ -97,6 +97,142 @@ export type Database = {
         }
         Relationships: []
       }
+      connected_object_raw: {
+        Row: {
+          fetched_at: string
+          object_id: string
+          payload: Json
+          user_id: string
+        }
+        Insert: {
+          fetched_at?: string
+          object_id: string
+          payload?: Json
+          user_id: string
+        }
+        Update: {
+          fetched_at?: string
+          object_id?: string
+          payload?: Json
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "connected_object_raw_object_id_fkey"
+            columns: ["object_id"]
+            isOneToOne: true
+            referencedRelation: "connected_objects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      connected_objects: {
+        Row: {
+          account_id: string | null
+          created_at: string
+          external_id: string
+          id: string
+          image_url: string | null
+          kind: string
+          last_synced_at: string
+          mime_type: string | null
+          occurred_at: string | null
+          product: string | null
+          project_slug: string
+          source: string
+          title: string
+          updated_at: string
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          account_id?: string | null
+          created_at?: string
+          external_id: string
+          id?: string
+          image_url?: string | null
+          kind: string
+          last_synced_at?: string
+          mime_type?: string | null
+          occurred_at?: string | null
+          product?: string | null
+          project_slug: string
+          source: string
+          title?: string
+          updated_at?: string
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          account_id?: string | null
+          created_at?: string
+          external_id?: string
+          id?: string
+          image_url?: string | null
+          kind?: string
+          last_synced_at?: string
+          mime_type?: string | null
+          occurred_at?: string | null
+          product?: string | null
+          project_slug?: string
+          source?: string
+          title?: string
+          updated_at?: string
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "connected_objects_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "connector_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      connector_accounts: {
+        Row: {
+          config: Json
+          connector_id: string
+          created_at: string
+          id: string
+          items_count: number
+          label: string
+          last_error: string | null
+          last_sync_at: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          config?: Json
+          connector_id: string
+          created_at?: string
+          id?: string
+          items_count?: number
+          label?: string
+          last_error?: string | null
+          last_sync_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          config?: Json
+          connector_id?: string
+          created_at?: string
+          id?: string
+          items_count?: number
+          label?: string
+          last_error?: string | null
+          last_sync_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           created_at: string
@@ -412,8 +548,45 @@ export type Database = {
         }
         Relationships: []
       }
+      object_links: {
+        Row: {
+          created_at: string
+          id: string
+          object_id: string
+          object_type: string
+          project_slug: string
+          role: string | null
+          target_id: string
+          target_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          object_id: string
+          object_type: string
+          project_slug: string
+          role?: string | null
+          target_id: string
+          target_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          object_id?: string
+          object_type?: string
+          project_slug?: string
+          role?: string | null
+          target_id?: string
+          target_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       pins: {
         Row: {
+          account_id: string | null
           board: string | null
           clicks: number
           created_at: string
@@ -422,6 +595,7 @@ export type Database = {
           id: string
           image_url: string | null
           impressions: number
+          last_synced_at: string | null
           manual_score: number | null
           notes: string | null
           outbound_clicks: number
@@ -434,6 +608,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          account_id?: string | null
           board?: string | null
           clicks?: number
           created_at?: string
@@ -442,6 +617,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           impressions?: number
+          last_synced_at?: string | null
           manual_score?: number | null
           notes?: string | null
           outbound_clicks?: number
@@ -454,6 +630,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          account_id?: string | null
           board?: string | null
           clicks?: number
           created_at?: string
@@ -462,6 +639,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           impressions?: number
+          last_synced_at?: string | null
           manual_score?: number | null
           notes?: string | null
           outbound_clicks?: number
@@ -473,7 +651,15 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "pins_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "connector_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -492,6 +678,59 @@ export type Database = {
           id?: string
         }
         Relationships: []
+      }
+      project_connectors: {
+        Row: {
+          account_id: string | null
+          allowed_folders: Json
+          config: Json
+          connector_id: string
+          created_at: string
+          enabled: boolean
+          granted_permissions: string[]
+          id: string
+          mode: string | null
+          project_slug: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_id?: string | null
+          allowed_folders?: Json
+          config?: Json
+          connector_id: string
+          created_at?: string
+          enabled?: boolean
+          granted_permissions?: string[]
+          id?: string
+          mode?: string | null
+          project_slug: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_id?: string | null
+          allowed_folders?: Json
+          config?: Json
+          connector_id?: string
+          created_at?: string
+          enabled?: boolean
+          granted_permissions?: string[]
+          id?: string
+          mode?: string | null
+          project_slug?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_connectors_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "connector_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       project_modules: {
         Row: {
@@ -666,11 +905,13 @@ export type Database = {
       }
       sales: {
         Row: {
+          account_id: string | null
           amount: number
           created_at: string
           currency: string
           external_id: string | null
           id: string
+          last_synced_at: string | null
           product: string
           quantity: number
           sold_at: string
@@ -678,11 +919,13 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          account_id?: string | null
           amount?: number
           created_at?: string
           currency?: string
           external_id?: string | null
           id?: string
+          last_synced_at?: string | null
           product: string
           quantity?: number
           sold_at?: string
@@ -690,18 +933,28 @@ export type Database = {
           user_id: string
         }
         Update: {
+          account_id?: string | null
           amount?: number
           created_at?: string
           currency?: string
           external_id?: string | null
           id?: string
+          last_synced_at?: string | null
           product?: string
           quantity?: number
           sold_at?: string
           source?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "sales_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "connector_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tasks: {
         Row: {
