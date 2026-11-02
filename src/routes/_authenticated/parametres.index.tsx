@@ -19,6 +19,16 @@ function SettingsIndex() {
     <Shell wordmark="AURIXEN" subtitle="Paramètres" backTo="/hub" nav={HUB_NAV}>
       <SectionTitle overline="Configuration" title="Paramètres" />
       <div className="space-y-3">
+        <Link to="/parametres/connecteurs" className="surface-panel flex items-center gap-3 p-4">
+          <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary">
+            <Plug className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-medium">Connecteurs</span>
+            <span className="block text-xs text-muted-foreground">Tous les services externes et leurs statuts</span>
+          </span>
+          <ArrowUpRight className="size-4 text-muted-foreground" />
+        </Link>
         <Link to="/parametres/integrations" className="surface-panel flex items-center gap-3 p-4">
           <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary">
             <Plug className="size-5" />
