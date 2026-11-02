@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { DesignFields, type DesignValue } from "@/components/aurixen/DesignFields";
 import { ModuleIcon } from "@/components/aurixen/module-icons";
+import { ProjectConnectors } from "@/components/aurixen/ProjectConnectors";
 import { SectionTitle } from "@/components/aurixen/Shell";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,12 +44,16 @@ function ProjectSettings() {
     <section>
       <SectionTitle overline={project.name} title="Réglages du projet" />
       <Tabs defaultValue="modules">
-        <TabsList className="mb-4 grid h-11 w-full grid-cols-4">
+        <TabsList className="mb-4 flex h-11 w-full justify-start overflow-x-auto">
           <TabsTrigger value="modules">Modules</TabsTrigger>
+          <TabsTrigger value="connecteurs">Connecteurs</TabsTrigger>
           <TabsTrigger value="accueil">Accueil</TabsTrigger>
           <TabsTrigger value="design">Design</TabsTrigger>
           <TabsTrigger value="projet">Projet</TabsTrigger>
         </TabsList>
+        <TabsContent value="connecteurs">
+          <ProjectConnectors projectSlug={slug} />
+        </TabsContent>
         <TabsContent value="modules">
           <ModulesTab slug={slug} modules={modules} />
         </TabsContent>

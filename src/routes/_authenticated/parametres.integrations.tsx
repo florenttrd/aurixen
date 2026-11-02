@@ -164,6 +164,13 @@ function IntegrationsPage() {
             </div>
           </section>
 
+          <Link to="/parametres/connecteurs" className="surface-panel flex items-center gap-3 p-4">
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-medium">Tous les connecteurs</span>
+              <span className="block text-xs text-muted-foreground">Hub central : statuts, comptes, projets</span>
+            </span>
+            <ArrowUpRight className="size-4 text-muted-foreground" />
+          </Link>
           <Link
             to="/parametres/import-pinterest"
             className="surface-panel flex items-center gap-3 p-4"

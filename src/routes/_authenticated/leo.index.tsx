@@ -80,6 +80,12 @@ function LeoDashboard() {
               hint: "Documents, visuels, exports",
               icon: <FolderOpen className="size-5" />,
             },
+            {
+              to: "/leo/connecteurs",
+              label: "Connecteurs",
+              hint: "Gumroad, Pinterest, Google Drive…",
+              icon: <Plug className="size-5" />,
+            },
           ].map((m) => (
             <li key={m.to}>
               <Link
