@@ -27,6 +27,7 @@ import { Route as AuthenticatedLeoAnalyticsRouteImport } from './routes/_authent
 import { Route as AuthenticatedLeoCalendrierRouteImport } from './routes/_authenticated/leo.calendrier'
 import { Route as AuthenticatedLeoCanvasRouteImport } from './routes/_authenticated/leo.canvas'
 import { Route as AuthenticatedLeoClassementRouteImport } from './routes/_authenticated/leo.classement'
+import { Route as AuthenticatedLeoConnecteursRouteImport } from './routes/_authenticated/leo.connecteurs'
 import { Route as AuthenticatedLeoFichiersRouteImport } from './routes/_authenticated/leo.fichiers'
 import { Route as AuthenticatedLeoNotesRouteImport } from './routes/_authenticated/leo.notes'
 import { Route as AuthenticatedLeoPinsRouteImport } from './routes/_authenticated/leo.pins'
@@ -34,10 +35,12 @@ import { Route as AuthenticatedLeoVentesRouteImport } from './routes/_authentica
 import { Route as AuthenticatedLionIndexRouteImport } from './routes/_authenticated/lion.index'
 import { Route as AuthenticatedLionCalendrierRouteImport } from './routes/_authenticated/lion.calendrier'
 import { Route as AuthenticatedLionCanvasRouteImport } from './routes/_authenticated/lion.canvas'
+import { Route as AuthenticatedLionConnecteursRouteImport } from './routes/_authenticated/lion.connecteurs'
 import { Route as AuthenticatedLionNotesRouteImport } from './routes/_authenticated/lion.notes'
 import { Route as AuthenticatedLionRestaurantsRouteImport } from './routes/_authenticated/lion.restaurants'
 import { Route as AuthenticatedPSlugRouteImport } from './routes/_authenticated/p.$slug'
 import { Route as AuthenticatedParametresIndexRouteImport } from './routes/_authenticated/parametres.index'
+import { Route as AuthenticatedParametresConnecteursRouteImport } from './routes/_authenticated/parametres.connecteurs'
 import { Route as AuthenticatedParametresImportPinterestRouteImport } from './routes/_authenticated/parametres.import-pinterest'
 import { Route as AuthenticatedParametresImportRestaurantsRouteImport } from './routes/_authenticated/parametres.import-restaurants'
 import { Route as AuthenticatedParametresIntegrationsRouteImport } from './routes/_authenticated/parametres.integrations'
@@ -146,6 +149,12 @@ const AuthenticatedLeoClassementRoute =
     path: '/classement',
     getParentRoute: () => AuthenticatedLeoRoute,
   } as any)
+const AuthenticatedLeoConnecteursRoute =
+  AuthenticatedLeoConnecteursRouteImport.update({
+    id: '/connecteurs',
+    path: '/connecteurs',
+    getParentRoute: () => AuthenticatedLeoRoute,
+  } as any)
 const AuthenticatedLeoFichiersRoute =
   AuthenticatedLeoFichiersRouteImport.update({
     id: '/fichiers',
@@ -183,6 +192,12 @@ const AuthenticatedLionCanvasRoute = AuthenticatedLionCanvasRouteImport.update({
   path: '/canvas',
   getParentRoute: () => AuthenticatedLionRoute,
 } as any)
+const AuthenticatedLionConnecteursRoute =
+  AuthenticatedLionConnecteursRouteImport.update({
+    id: '/connecteurs',
+    path: '/connecteurs',
+    getParentRoute: () => AuthenticatedLionRoute,
+  } as any)
 const AuthenticatedLionNotesRoute = AuthenticatedLionNotesRouteImport.update({
   id: '/notes',
   path: '/notes',
@@ -203,6 +218,12 @@ const AuthenticatedParametresIndexRoute =
   AuthenticatedParametresIndexRouteImport.update({
     id: '/',
     path: '/',
+    getParentRoute: () => AuthenticatedParametresRoute,
+  } as any)
+const AuthenticatedParametresConnecteursRoute =
+  AuthenticatedParametresConnecteursRouteImport.update({
+    id: '/connecteurs',
+    path: '/connecteurs',
     getParentRoute: () => AuthenticatedParametresRoute,
   } as any)
 const AuthenticatedParametresImportPinterestRoute =
@@ -298,15 +319,18 @@ export interface FileRoutesByFullPath {
   '/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
   '/leo/canvas': typeof AuthenticatedLeoCanvasRoute
   '/leo/classement': typeof AuthenticatedLeoClassementRoute
+  '/leo/connecteurs': typeof AuthenticatedLeoConnecteursRoute
   '/leo/fichiers': typeof AuthenticatedLeoFichiersRoute
   '/leo/notes': typeof AuthenticatedLeoNotesRoute
   '/leo/pins': typeof AuthenticatedLeoPinsRoute
   '/leo/ventes': typeof AuthenticatedLeoVentesRoute
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/canvas': typeof AuthenticatedLionCanvasRoute
+  '/lion/connecteurs': typeof AuthenticatedLionConnecteursRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
   '/p/$slug': typeof AuthenticatedPSlugRouteWithChildren
+  '/parametres/connecteurs': typeof AuthenticatedParametresConnecteursRoute
   '/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
@@ -338,14 +362,17 @@ export interface FileRoutesByTo {
   '/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
   '/leo/canvas': typeof AuthenticatedLeoCanvasRoute
   '/leo/classement': typeof AuthenticatedLeoClassementRoute
+  '/leo/connecteurs': typeof AuthenticatedLeoConnecteursRoute
   '/leo/fichiers': typeof AuthenticatedLeoFichiersRoute
   '/leo/notes': typeof AuthenticatedLeoNotesRoute
   '/leo/pins': typeof AuthenticatedLeoPinsRoute
   '/leo/ventes': typeof AuthenticatedLeoVentesRoute
   '/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/lion/canvas': typeof AuthenticatedLionCanvasRoute
+  '/lion/connecteurs': typeof AuthenticatedLionConnecteursRoute
   '/lion/notes': typeof AuthenticatedLionNotesRoute
   '/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
+  '/parametres/connecteurs': typeof AuthenticatedParametresConnecteursRoute
   '/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
@@ -382,15 +409,18 @@ export interface FileRoutesById {
   '/_authenticated/leo/calendrier': typeof AuthenticatedLeoCalendrierRoute
   '/_authenticated/leo/canvas': typeof AuthenticatedLeoCanvasRoute
   '/_authenticated/leo/classement': typeof AuthenticatedLeoClassementRoute
+  '/_authenticated/leo/connecteurs': typeof AuthenticatedLeoConnecteursRoute
   '/_authenticated/leo/fichiers': typeof AuthenticatedLeoFichiersRoute
   '/_authenticated/leo/notes': typeof AuthenticatedLeoNotesRoute
   '/_authenticated/leo/pins': typeof AuthenticatedLeoPinsRoute
   '/_authenticated/leo/ventes': typeof AuthenticatedLeoVentesRoute
   '/_authenticated/lion/calendrier': typeof AuthenticatedLionCalendrierRoute
   '/_authenticated/lion/canvas': typeof AuthenticatedLionCanvasRoute
+  '/_authenticated/lion/connecteurs': typeof AuthenticatedLionConnecteursRoute
   '/_authenticated/lion/notes': typeof AuthenticatedLionNotesRoute
   '/_authenticated/lion/restaurants': typeof AuthenticatedLionRestaurantsRoute
   '/_authenticated/p/$slug': typeof AuthenticatedPSlugRouteWithChildren
+  '/_authenticated/parametres/connecteurs': typeof AuthenticatedParametresConnecteursRoute
   '/_authenticated/parametres/import-pinterest': typeof AuthenticatedParametresImportPinterestRoute
   '/_authenticated/parametres/import-restaurants': typeof AuthenticatedParametresImportRestaurantsRoute
   '/_authenticated/parametres/integrations': typeof AuthenticatedParametresIntegrationsRoute
@@ -427,15 +457,18 @@ export interface FileRouteTypes {
     | '/leo/calendrier'
     | '/leo/canvas'
     | '/leo/classement'
+    | '/leo/connecteurs'
     | '/leo/fichiers'
     | '/leo/notes'
     | '/leo/pins'
     | '/leo/ventes'
     | '/lion/calendrier'
     | '/lion/canvas'
+    | '/lion/connecteurs'
     | '/lion/notes'
     | '/lion/restaurants'
     | '/p/$slug'
+    | '/parametres/connecteurs'
     | '/parametres/import-pinterest'
     | '/parametres/import-restaurants'
     | '/parametres/integrations'
@@ -467,14 +500,17 @@ export interface FileRouteTypes {
     | '/leo/calendrier'
     | '/leo/canvas'
     | '/leo/classement'
+    | '/leo/connecteurs'
     | '/leo/fichiers'
     | '/leo/notes'
     | '/leo/pins'
     | '/leo/ventes'
     | '/lion/calendrier'
     | '/lion/canvas'
+    | '/lion/connecteurs'
     | '/lion/notes'
     | '/lion/restaurants'
+    | '/parametres/connecteurs'
     | '/parametres/import-pinterest'
     | '/parametres/import-restaurants'
     | '/parametres/integrations'
@@ -510,15 +546,18 @@ export interface FileRouteTypes {
     | '/_authenticated/leo/calendrier'
     | '/_authenticated/leo/canvas'
     | '/_authenticated/leo/classement'
+    | '/_authenticated/leo/connecteurs'
     | '/_authenticated/leo/fichiers'
     | '/_authenticated/leo/notes'
     | '/_authenticated/leo/pins'
     | '/_authenticated/leo/ventes'
     | '/_authenticated/lion/calendrier'
     | '/_authenticated/lion/canvas'
+    | '/_authenticated/lion/connecteurs'
     | '/_authenticated/lion/notes'
     | '/_authenticated/lion/restaurants'
     | '/_authenticated/p/$slug'
+    | '/_authenticated/parametres/connecteurs'
     | '/_authenticated/parametres/import-pinterest'
     | '/_authenticated/parametres/import-restaurants'
     | '/_authenticated/parametres/integrations'
@@ -674,6 +713,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLeoClassementRouteImport
       parentRoute: typeof AuthenticatedLeoRoute
     }
+    '/_authenticated/leo/connecteurs': {
+      id: '/_authenticated/leo/connecteurs'
+      path: '/connecteurs'
+      fullPath: '/leo/connecteurs'
+      preLoaderRoute: typeof AuthenticatedLeoConnecteursRouteImport
+      parentRoute: typeof AuthenticatedLeoRoute
+    }
     '/_authenticated/leo/fichiers': {
       id: '/_authenticated/leo/fichiers'
       path: '/fichiers'
@@ -723,6 +769,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLionCanvasRouteImport
       parentRoute: typeof AuthenticatedLionRoute
     }
+    '/_authenticated/lion/connecteurs': {
+      id: '/_authenticated/lion/connecteurs'
+      path: '/connecteurs'
+      fullPath: '/lion/connecteurs'
+      preLoaderRoute: typeof AuthenticatedLionConnecteursRouteImport
+      parentRoute: typeof AuthenticatedLionRoute
+    }
     '/_authenticated/lion/notes': {
       id: '/_authenticated/lion/notes'
       path: '/notes'
@@ -749,6 +802,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/parametres/'
       preLoaderRoute: typeof AuthenticatedParametresIndexRouteImport
+      parentRoute: typeof AuthenticatedParametresRoute
+    }
+    '/_authenticated/parametres/connecteurs': {
+      id: '/_authenticated/parametres/connecteurs'
+      path: '/connecteurs'
+      fullPath: '/parametres/connecteurs'
+      preLoaderRoute: typeof AuthenticatedParametresConnecteursRouteImport
       parentRoute: typeof AuthenticatedParametresRoute
     }
     '/_authenticated/parametres/import-pinterest': {
@@ -850,6 +910,7 @@ interface AuthenticatedLeoRouteChildren {
   AuthenticatedLeoCalendrierRoute: typeof AuthenticatedLeoCalendrierRoute
   AuthenticatedLeoCanvasRoute: typeof AuthenticatedLeoCanvasRoute
   AuthenticatedLeoClassementRoute: typeof AuthenticatedLeoClassementRoute
+  AuthenticatedLeoConnecteursRoute: typeof AuthenticatedLeoConnecteursRoute
   AuthenticatedLeoFichiersRoute: typeof AuthenticatedLeoFichiersRoute
   AuthenticatedLeoNotesRoute: typeof AuthenticatedLeoNotesRoute
   AuthenticatedLeoPinsRoute: typeof AuthenticatedLeoPinsRoute
@@ -862,6 +923,7 @@ const AuthenticatedLeoRouteChildren: AuthenticatedLeoRouteChildren = {
   AuthenticatedLeoCalendrierRoute: AuthenticatedLeoCalendrierRoute,
   AuthenticatedLeoCanvasRoute: AuthenticatedLeoCanvasRoute,
   AuthenticatedLeoClassementRoute: AuthenticatedLeoClassementRoute,
+  AuthenticatedLeoConnecteursRoute: AuthenticatedLeoConnecteursRoute,
   AuthenticatedLeoFichiersRoute: AuthenticatedLeoFichiersRoute,
   AuthenticatedLeoNotesRoute: AuthenticatedLeoNotesRoute,
   AuthenticatedLeoPinsRoute: AuthenticatedLeoPinsRoute,
@@ -875,6 +937,7 @@ const AuthenticatedLeoRouteWithChildren =
 interface AuthenticatedLionRouteChildren {
   AuthenticatedLionCalendrierRoute: typeof AuthenticatedLionCalendrierRoute
   AuthenticatedLionCanvasRoute: typeof AuthenticatedLionCanvasRoute
+  AuthenticatedLionConnecteursRoute: typeof AuthenticatedLionConnecteursRoute
   AuthenticatedLionNotesRoute: typeof AuthenticatedLionNotesRoute
   AuthenticatedLionRestaurantsRoute: typeof AuthenticatedLionRestaurantsRoute
   AuthenticatedLionIndexRoute: typeof AuthenticatedLionIndexRoute
@@ -883,6 +946,7 @@ interface AuthenticatedLionRouteChildren {
 const AuthenticatedLionRouteChildren: AuthenticatedLionRouteChildren = {
   AuthenticatedLionCalendrierRoute: AuthenticatedLionCalendrierRoute,
   AuthenticatedLionCanvasRoute: AuthenticatedLionCanvasRoute,
+  AuthenticatedLionConnecteursRoute: AuthenticatedLionConnecteursRoute,
   AuthenticatedLionNotesRoute: AuthenticatedLionNotesRoute,
   AuthenticatedLionRestaurantsRoute: AuthenticatedLionRestaurantsRoute,
   AuthenticatedLionIndexRoute: AuthenticatedLionIndexRoute,
@@ -892,6 +956,7 @@ const AuthenticatedLionRouteWithChildren =
   AuthenticatedLionRoute._addFileChildren(AuthenticatedLionRouteChildren)
 
 interface AuthenticatedParametresRouteChildren {
+  AuthenticatedParametresConnecteursRoute: typeof AuthenticatedParametresConnecteursRoute
   AuthenticatedParametresImportPinterestRoute: typeof AuthenticatedParametresImportPinterestRoute
   AuthenticatedParametresImportRestaurantsRoute: typeof AuthenticatedParametresImportRestaurantsRoute
   AuthenticatedParametresIntegrationsRoute: typeof AuthenticatedParametresIntegrationsRoute
@@ -900,6 +965,8 @@ interface AuthenticatedParametresRouteChildren {
 
 const AuthenticatedParametresRouteChildren: AuthenticatedParametresRouteChildren =
   {
+    AuthenticatedParametresConnecteursRoute:
+      AuthenticatedParametresConnecteursRoute,
     AuthenticatedParametresImportPinterestRoute:
       AuthenticatedParametresImportPinterestRoute,
     AuthenticatedParametresImportRestaurantsRoute:
