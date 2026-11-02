@@ -72,6 +72,12 @@ function LionDashboard() {
               hint: "Idées, stratégies, observations",
               icon: <NotebookPen className="size-5" />,
             },
+            {
+              to: "/lion/connecteurs",
+              label: "Connecteurs",
+              hint: "Services externes du projet",
+              icon: <Plug className="size-5" />,
+            },
           ].map((m) => (
             <li key={m.to}>
               <Link
